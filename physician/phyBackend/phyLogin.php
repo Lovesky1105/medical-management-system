@@ -3,11 +3,10 @@
     include_once "config.php";
     $email = mysqli_real_escape_string($conn, $_POST['email']);
     $password = mysqli_real_escape_string($conn, $_POST['password']);
-    $access_lvl = "doctor";
     $agreement = "approve";
     if(!empty($email) && !empty($password)){
-        $sql = mysqli_query($conn, "SELECT * FROM physician WHERE email = '{$email}' AND 
-        accessLVL = '{$access_lvl}' AND agreement = '{$agreement}' ");
+        $sql = mysqli_query($conn, "SELECT * FROM physician WHERE email = '{$email}'  
+         AND agreement = '{$agreement}' ");
         if(mysqli_num_rows($sql) > 0){
             $row = mysqli_fetch_assoc($sql);
             $user_pass = md5($password);
@@ -25,12 +24,12 @@
                     echo "Something went wrong. Please try again!";
                 }
             }else{
-                echo "Email or Password is Incorrect!";
+                header("location: ../loginError.html");
             }
         }else{
-            echo "$email - This email not Exist!";
+            header("location: ../loginEmailError.html");
         }
     }else{
-        echo "All input fields are required!";
+        header("location: ../inputError.html");
     }
 ?>

@@ -16,12 +16,13 @@ if (isset($_POST['submitted'])) {
     
       // update database
       $query = "UPDATE appointment SET 
-              status = 'apporve' 
+              status = 'approve' 
               WHERE appointmentId = '$appointmentId' "
               ;
 
       if (mysqli_query($conn, $query)) {
         print "appointment approve successfully!";
+        header("location: ../viewAppointment.php");
 
         
     }else {

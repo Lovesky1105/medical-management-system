@@ -4,24 +4,27 @@
 include_once "config.php";
 
 if (isset($_POST['submit'])) {
-
     $email = mysqli_real_escape_string($conn, $_POST['email']);
     $phone = mysqli_real_escape_string($conn, $_POST['phone']);
-    $image = mysqli_real_escape_string($conn, $_POST['image']);
     $departement = mysqli_real_escape_string($conn, $_POST['departement']);
     $intro = mysqli_real_escape_string($conn, $_POST['intro']);
+    $address = mysqli_real_escape_string($conn, $_POST['address']);
+    if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+      $image = mysqli_real_escape_string($conn, $_FILES['image']['name']);
+      $target_dir = "uploads/";
+      $target_file = $target_dir . basename($_FILES["image"]["name"]);
+
+      // Rest of your code to handle file upload and database update...
+  } else {
+      echo "Image upload failed or was not provided.";
+  }
 
 
-/*$email = $_POST['email'];
-$phone = $_POST['phone'];
-$image = $_POST['image'];
-$departement = $_POST['departement'];
-$intro = $_POST['intro'];*/
 
-$target_dir = "uploads/";
-$target_file = $target_dir . basename($_FILES["image"]["name"]);
-$uploadOk = 1;
-$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+ if(!empty($email) && !empty($phone) && !empty($departement) && !empty($intro)  && !empty($address)){
+    
+    $uploadOk = 1;
+    $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 
 
 
@@ -35,10 +38,10 @@ $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
     }
 
     // Check if file already exists
-if (file_exists($target_file)) {
+  if (file_exists($target_file)) {
     echo "Sorry, file already exists.";
     $uploadOk = 0;
-  }
+    }
   
   // Check file size
   if ($_FILES["image"]["size"] > 500000) {
@@ -65,28 +68,33 @@ if (file_exists($target_file)) {
     }
   }
 
-   
-
-    
       // update database
       $query = "UPDATE physician SET 
               email = '$email',
               phone = '$phone',
+              address = '$address',
               image = '$target_file',
-              specialist = '$departement',
-              info = '$intro'
+              info = '$intro',
+              specialist = '$departement'
               WHERE phyId = '{$_SESSION['phyId']}'";
 
       if (mysqli_query($conn, $query)) {
-        print "account verify successfully!";
+        print "update successfully!";
         header("location: ../dashboard.php");
 
         
     }else {
-        print "got problem";
+        print'<p style="color:red;">Could not retrieve the data because :<br/>' .mysqli_error($conn).
+                    '.</p><p>the query being run was : '.$query.'</p>';
 
     }
+  
+  }else{
+    echo "All input fields are required!";
+  }
+
 }
+
 ?>
 
 

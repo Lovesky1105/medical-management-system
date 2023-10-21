@@ -27,16 +27,16 @@
                                 echo "success";
                                 header("location: ../submit.php");
                             }else{
-                                echo "This email address not Exist!";
+                                header("location: ../loginEmailError.php");
                             }
                         }else{
                             echo "Something went wrong. Please try again!";
                         }
                     }
         }else{
-            echo "$email is not a valid email!";
+            header("location: ../loginEmailError.php");
         }
     }else{
-        echo "All input fields are required!";
+        header("location: ../inputError.html");
     }
 ?>
