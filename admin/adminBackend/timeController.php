@@ -9,7 +9,7 @@
         if($insert_query){
             
                 echo "success";
-                header("location: ../adminDashboard.php");
+                header("location: ../timeControllerForm.php");
             
         }else{
             echo "Something went wrong. Please try again!";
