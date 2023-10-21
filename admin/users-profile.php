@@ -90,16 +90,6 @@ if($r = mysqli_query($conn, $query ) ) {
                   </div>
 
                   <div class="row">
-                    <div class="col-lg-3 col-md-4 label">NRIC</div>
-                    <div class="col-lg-9 col-md-8">
-                      <?php 
-                       $nric = substr($row['adminNric'], 6);
-                      print "******-**-{$nric}";
-                      ?>
-                      </div>
-                  </div>
-
-                  <div class="row">
                     <div class="col-lg-3 col-md-4 label">Address</div>
                     <div class="col-lg-9 col-md-8"><?php print "{$row['adminAddress']}";?></div>
                   </div>
