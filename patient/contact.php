@@ -1,4 +1,5 @@
 <?php
+session_start();
 include_once "backend/config.php";
 include_once "../header.php"; 
 include_once "navBar.php";
@@ -32,6 +33,19 @@ include_once "navBar.php";
       <h1 class="text-center wow fadeInUp">Get in Touch</h1>
 
       <form class="contact-form mt-5" action="contact.php" method="post">
+      <?php
+                    if(isset($_SESSION['status']))
+                    {
+                        ?>
+                        <div class="alert alert-success">
+                            <h5>
+                                <?= $_SESSION['status']; ?>
+                            </h5>
+                        </div>
+                        <?php
+                        unset($_SESSION['status']);
+                    }        
+                ?>
         <div class="row mb-3">
           <div class="col-sm-6 py-2 wow fadeInLeft">
             <label for="fullName">Name</label>
@@ -70,44 +84,44 @@ include_once "navBar.php";
         $okay = true;
 
       if (empty($name) && empty($email) && empty($subject) && empty($message)) {
-			echo "Please fill out all the field.<br/><br/>";
+        $_SESSION['status'] = "Please fill out all the field.<br/><br/>";
 			$okay = false;
 		  }
 
       else {
         if (empty($name)) {
-          echo "First Name is required.<br/><br/>";
+          $_SESSION['status'] = "First Name is required.<br/><br/>";
           $okay = false;
         }
 
         else if (ctype_alpha(str_replace(' ', '', $name)) == false) {
-          echo "Only letters and spaces are allowed in Name field.<br/><br/>";
+          $_SESSION['status'] = "Only letters and spaces are allowed in Name field.<br/><br/>";
           $okay = false;
         }
 
         if (empty($email)) {
-          echo "Email is required.<br/><br/>";	
+          $_SESSION['status'] = "Email is required.<br/><br/>";	
           $okay = false;		
         }
               
         else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-          echo "Invalid E-mail address.<br/><br/>";
+          $_SESSION['status'] = "Invalid E-mail address.<br/><br/>";
           $okay = false;
         }
 
         if (empty($subject)) {
-          echo "Subject is required.";
+          $_SESSION['status'] = "Subject is required.";
           $okay = false;
         }
 
         if (empty($message)) {
-          echo "Message is required.";
+          $_SESSION['status'] = "Message is required.";
           $okay = false;
         }
       }
 
       if ($okay) {
-        echo "Your message has been sent successfully.";
+        $_SESSION['status'] = "Your message has been sent successfully.";
 
         try{
           $mail->isSMTP();

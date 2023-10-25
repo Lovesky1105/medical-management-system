@@ -35,13 +35,6 @@
   </li>
 
   <li class="nav-item">
-    <a class="nav-link " href="editContentForm.php">
-      <i class="bi bi-pencil-square"></i>
-      <span>Content Editor</span>
-    </a>
-  </li>
-
-  <li class="nav-item">
     <a class="nav-link " href="report.php">
     <i class="bi bi-newspaper"></i>
       <span>Report</span>

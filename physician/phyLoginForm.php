@@ -78,7 +78,7 @@
                       <label for="yourUsername" class="form-label">Email</label>
                       <div class="input-group has-validation">
                         <input type="text" name="email" class="form-control" id="email" required>
-                        <div class="invalid-feedback">Please enter your username.</div>
+                        <div class="invalid-feedback">Please enter your Email.</div>
                       </div>
                     </div>
 
@@ -88,6 +88,8 @@
 
                       <div class="invalid-feedback">Please enter your password!</div>
                     </div>
+
+                    <div class="pass"><a href="forgot-password.php">Forgot password?</a></div>
 
                     <div class="col-12">
                       <button class="btn btn-primary w-100" type="submit">Login</button>

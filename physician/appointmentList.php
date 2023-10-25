@@ -8,6 +8,7 @@ include_once "header.php";
 include_once "sidebar.php"; 
 
 ?>
+
 <body>
 
   <main id="main" class="main">
@@ -29,7 +30,7 @@ include_once "sidebar.php";
 
           
             <?php
-                $query="SELECT * FROM appointment WHERE phyId='".$_SESSION['phyId']."' AND status ='approve' ";
+                $query="SELECT * FROM appointment WHERE phyId='".$_SESSION['phyId']."' AND status ='approve' ORDER BY date DESC ";
                 
                 
                 if($r = mysqli_query($conn, $query ) ) {
@@ -39,53 +40,18 @@ include_once "sidebar.php";
                         echo '<div class="card">';
                         echo '<div class="card-body">';
 
-                        echo '<form action="phyBackend/consult.php" method="POST">';
-                        $appointmentId = $row['appointmentId'];
+                        echo '<form action="phyBackend/doneAppointment.php" method="POST">';
+                        $appointmentId = "{$row['appointmentId']}";
                         echo "<input type='hidden' name='appointmentId' value='{$appointmentId}'>";
                         print "<p>Patient ID: {$row['id']}</p>";
                         print "<p>Patient Name: {$row['patientName']}</p>";
-                        
-                        $method = "AES-256-CBC";
-                        $key = "secret";
-                        
-                        if (isset($row['patientNRIC'])) {
-                            $encryption = $row['patientNRIC'];
-              
-                            // Storingthe cipher method
-                            $ciphering = "AES-128-CTR";
-              
-                            // Using OpenSSl Encryption method
-                            $iv_length = openssl_cipher_iv_length($ciphering);
-                            $options = 0;
-              
-                            // Storing the encryption key
-                            $decryption_key = "GrandClinic123";
-              
-                            $decryption_iv = '1234567891011121';
-                        
-                            
-                            // Using openssl_decrypt() function to decrypt the data
-                            $decryption = openssl_decrypt($encryption, $ciphering, $decryption_key, $options, $decryption_iv);
-                        
-                            if ($decryption === false) {
-                                // Handle decryption error
-                                echo "Decryption failed: " . openssl_error_string();
-                            } else {
-                                // Display the decrypted value
-                                echo "Patient NRIC: ******-**-" . substr($decryption,8);
-                            }
-                        } else {
-                            // Handle the case where NRIC is not set in the database
-                            echo "NRIC data is missing.";
-                        }
-
                         print "<p>Patient Gender: {$row['patientGender']}</p>";
                         print "<p>Patient Email: {$row['patientEmail']}</p>";
                         print "<p>Patient Phone: {$row['patientPhone']}</p>";
                         print "<p>date : {$row['date']}</p>";
                         print "<p>slot : {$row['slot']}</p>";
                         print "<p>Message : {$row['msg']}</p>";
-
+                        echo '<button class="btn btn-success w-100" type="submit" name="done">Done</button>';
                         echo '</form>';
                         echo '</div>';
                         echo '</div>';
@@ -98,17 +64,14 @@ include_once "sidebar.php";
                         '.</p><p>the query being run was : '.$query.'</p>';
                     }
                 
-                    mysqli_close($conn);
+                   
                 
                 ?>
-              
-            
-
         </div>
-
-       
       </div>
     </section>
+
+  
 
   </main><!-- End #main -->
 
@@ -126,6 +89,9 @@ include_once "sidebar.php";
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
 
+  <?php
+   mysqli_close($conn);
+  ?>
 </body>
 
 </html>

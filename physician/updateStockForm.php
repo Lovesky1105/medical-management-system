@@ -66,6 +66,13 @@ $agreement = "approve";
                       echo '</div>';
 
                       echo '<div class="col-lg-2 col-md-8"> ';
+                      echo '<form action="viewMeds.php" method="post">';
+                      echo "<input type='hidden' name='medicineId' value='{$row['medicineId']}'>";
+                      echo '<button class="btn btn-primary w-100" type="submit" name="view">View</button>';
+                      echo '</form>';
+                      echo '</div>';
+
+                      echo '<div class="col-lg-2 col-md-8"> ';
                       echo '<form action="updateStock.php" method="post">';
                       echo "<input type='hidden' name='medicineId' value='{$row['medicineId']}'>";
                       echo '<button class="btn btn-primary w-100" type="submit" name="submit">Update</button>';

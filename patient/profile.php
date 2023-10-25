@@ -43,7 +43,9 @@
       <h1 class="text-center wow fadeInUp">Account Detail</h1>
         <div class="row mb-3">
 
+        <form action="editProfileForm.php" mathod="post">
           <div class="col-sm-6 py-2 wow fadeInLeft">
+            
             <p>Name: <?php echo "{$row['name']}"; ?></p>
           </div>
 
@@ -96,143 +98,89 @@
         </div>
 
             <?php
+            print" <button type='submit' name='submit' value ='submit' class='btn btn-light wow zoomIn' >Edit Profile</button>";
             print" <button class='btn btn-light wow zoomIn' role='button'><a href='backend/logout.php?logout_id= {$row['id']}' class='logout'>Logout</a></button>";
             ?>
-        
+        </form>
         </div>
     </div>
   </div>
   
 
-  <?php
-                            }
-                    }else{
-                        print'<p style="color:red;">Could not retrieve the data because :<br/>' .mysqli_error($conn).
-                        '.</p><p>the query being run was : '.$query.'</p>';
-                    }
-                    ?>
+  <?php           
+    }
+    }else{
+        print'<p style="color:red;">Could not retrieve the data because :<br/>' .mysqli_error($conn).
+        '.</p><p>the query being run was : '.$query.'</p>';
+    }
+  ?>
 
                 <div class="page-section">
                 <div class="container">
                 <h1 class="text-center wow fadeInUp">Appointment History</h1>
 
 
-            <?php
-                $query2="SELECT * FROM appointment WHERE id='".$_SESSION['id']."' ";
+    <?php
+        $query2="SELECT * FROM appointment 
+        WHERE id='".$_SESSION['id']."' 
+        ORDER BY date DESC";
 
-                if($r = mysqli_query($conn, $query2 ) ) {
-                    
-                    while ($row=mysqli_fetch_array($r)){
-                    //$phyId = "{$row['phyId']}";
-                    $phyId = $row['phyId'];
+        if($r = mysqli_query($conn, $query2 ) ) {
+            
+            while ($row=mysqli_fetch_array($r)){
+            //$phyId = "{$row['phyId']}";
+            $phyId = $row['phyId'];
 
-                    $query3 = "SELECT * FROM physician WHERE phyId = '$phyId' ";
-                    //$phyName = "{$row['name']}";
-
-                    //query 3 
-                if ($result = mysqli_query($conn, $query3)) {
-                    while ($physician = mysqli_fetch_array($result)) {
-                        $phyName = $physician['name']; // Get the physician name from query3
-                    }
-                    mysqli_free_result($result);
-                } else {
-                    echo "Error in query3: " . mysqli_error($conn);
-                }// end query 3 
+            $query3 = "SELECT * FROM physician WHERE phyId = '$phyId' ";
+          
+        if ($result = mysqli_query($conn, $query3)) {
+            while ($physician = mysqli_fetch_array($result)) {
+                $phyName = $physician['name']; // Get the physician name from query3
+            }
+            mysqli_free_result($result);
+        } else {
+            echo "Error in query3: " . mysqli_error($conn);
+        }
         
-                    echo '<div class="row mb-3">';
-
-                    echo '<div class="col-sm-6 py-2 wow fadeInLeft">';
-                    echo "Appointment ID:  {$row["appointmentId"]} </p>";
-                    echo '</div>';
-
-                    echo '<div class="col-sm-6 py-2 wow fadeInRight">';
-                    echo "<p>Patient Name: {$row["patientName"]}</p>";
-                    echo '</div>';
-
-                    echo '<div class="col-sm-6 py-2 wow fadeInLeft">';
-                    echo "<p>Appointment Date: {$row["date"]}</p>";
-                    echo '</div>';
                     
-                    echo '<div class="col-sm-6 py-2 wow fadeInRight">';
-                    echo "<p>Appointment Slot: {$row["slot"]}";
-                    echo '</div>';
+          echo '<div class="row mb-3">';
+          echo '<div class="col-sm-6 py-2 wow fadeInLeft">';
+          echo "Appointment ID:  {$row["appointmentId"]} </p>";
+          echo '</div>';
 
-                    echo '<div class="col-sm-6 py-2 wow fadeInLeft">';
-                    echo "<p>Doctor Name: {$phyName}</p>";
-                    echo '</div>';
+          echo '<div class="col-sm-6 py-2 wow fadeInRight">';
+          echo "<p>Patient Name: {$row["patientName"]}</p>";
+          echo '</div>';
 
-                    echo '<div class="col-sm-6 py-2 wow fadeInRight">';
-                    echo "<p>Appointment Status: {$row["status"]}</p>";
-                    echo '</div>';
+          echo '<div class="col-sm-6 py-2 wow fadeInLeft">';
+          echo "<p>Appointment Date: {$row["date"]}</p>";
+          echo '</div>';
+          
+          echo '<div class="col-sm-6 py-2 wow fadeInRight">';
+          echo "<p>Appointment Slot: {$row["slot"]}";
+          echo '</div>';
 
-                    echo '</div>';
+          echo '<div class="col-sm-6 py-2 wow fadeInLeft">';
+          echo "<p>Doctor Name: {$phyName}</p>";
+          echo '</div>';
 
-                    echo '</div>';
-                    echo '</div>';
+          echo '<div class="col-sm-6 py-2 wow fadeInRight">';
+          echo "<p>Appointment Status: {$row["status"]}</p>";
+          echo '</div>';
 
-                         }        
-                            }else{
-                                print'<p style="color:red;">Could not retrieve the data because :<br/>' .mysqli_error($conn).
-                                '.</p><p>the query being run was : '.$query2.'</p>';
-                            }
-                        mysqli_free_result($r);
-                            mysqli_close($conn);
-                
-                ?>
+          echo '</div>';//end row        
+          }        
+            }else{
+                print'<p style="color:red;">Could not retrieve the data because :<br/>' .mysqli_error($conn).
+                '.</p><p>the query being run was : '.$query2.'</p>';
+            }
+            mysqli_free_result($r);
+            mysqli_close($conn);
+            
+      echo '</div>'; // end container
+      echo '</div>';
+      ?>
 
- 
-
-  <footer class="page-footer">
-    <div class="container">
-      <div class="row px-md-3">
-        <div class="col-sm-6 col-lg-3 py-3">
-          <h5>Company</h5>
-          <ul class="footer-menu">
-            <li><a href="#">About Us</a></li>
-            <li><a href="#">Career</a></li>
-            <li><a href="#">Editorial Team</a></li>
-            <li><a href="#">Protection</a></li>
-          </ul>
-        </div>
-        <div class="col-sm-6 col-lg-3 py-3">
-          <h5>More</h5>
-          <ul class="footer-menu">
-            <li><a href="#">Terms & Condition</a></li>
-            <li><a href="#">Privacy</a></li>
-            <li><a href="#">Advertise</a></li>
-            <li><a href="#">Join as Doctors</a></li>
-          </ul>
-        </div>
-        <div class="col-sm-6 col-lg-3 py-3">
-          <h5>Our partner</h5>
-          <ul class="footer-menu">
-            <li><a href="#">One-Fitness</a></li>
-            <li><a href="#">One-Drugs</a></li>
-            <li><a href="#">One-Live</a></li>
-          </ul>
-        </div>
-        <div class="col-sm-6 col-lg-3 py-3">
-          <h5>Contact</h5>
-          <p class="footer-link mt-2">351 Willow Street Franklin, MA 02038</p>
-          <a href="#" class="footer-link">701-573-7582</a>
-          <a href="#" class="footer-link">healthcare@temporary.net</a>
-
-          <h5 class="mt-3">Social Media</h5>
-          <div class="footer-sosmed mt-3">
-            <a href="#" target="_blank"><span class="mai-logo-facebook-f"></span></a>
-            <a href="#" target="_blank"><span class="mai-logo-twitter"></span></a>
-            <a href="#" target="_blank"><span class="mai-logo-google-plus-g"></span></a>
-            <a href="#" target="_blank"><span class="mai-logo-instagram"></span></a>
-            <a href="#" target="_blank"><span class="mai-logo-linkedin"></span></a>
-          </div>
-        </div>
-      </div>
-
-      <hr>
-
-      <p id="copyright">Copyright &copy; 2020 <a href="https://macodeid.com/" target="_blank">MACode ID</a>. All right reserved</p>
-    </div>
-  </footer>
 
 <script src="../assets/js/jquery-3.5.1.min.js"></script>
 

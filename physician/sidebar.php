@@ -40,6 +40,12 @@
         </a>
       </li>
       <li>
+        <a href="approveMedsForm.php">
+          <i class="bi bi-circle"></i><span> Approve Medicine</span>
+        </a>
+      </li>
+      <li>
+      <li>
         <a href="updateStockForm.php">
           <i class="bi bi-circle"></i><span> Medicine List</span>
         </a>

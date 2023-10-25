@@ -7,6 +7,12 @@ include_once "phyBackend/config.php";
 include_once "header.php"; 
 include_once "sidebar.php"; 
 $agreement = "pending";
+$phyId = $_SESSION['phyId'];
+
+$sql = "SELECT phyId, accessLvl FROM physician WHERE phyId = $phyId AND accessLvl = 'doctor'";
+$r = mysqli_query($conn, $sql );
+
+if($r && mysqli_num_rows($r) > 0){
 
     
     $cleanSearch = $_POST['search'];
@@ -103,6 +109,18 @@ $agreement = "pending";
 </html>
 <?php
     mysqli_close($conn);
+}else {
+  // The user does not have 'doctor' access level
+  echo '<main id="main" class="main">';
+
+    echo '<div class="pagetitle">';
+      echo '<h1>Approve Medicine Page</h1>';
+    echo '</div>';
+
+    echo '<section class="section">';
+  echo "You are not a doctor. Access denied!";
+  echo '<section>';
+}
 ?>
 
 

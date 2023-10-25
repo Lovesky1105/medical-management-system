@@ -17,8 +17,8 @@
                         $status = "Active now";
                         $agreement = "Pending";
                         $encrypt_pass = md5($password);
-                        $insert_query = mysqli_query($conn, "INSERT INTO physician (phyId, name, nric, email, password, phone, address, gender, accessLVL, status, agreement, specialist, image, info)
-                        VALUES (0, '{$name}', '{$nric}', '{$email}', '{$encrypt_pass}', '{$phone}', NULL,  '{$gender}', '{$access_lvl}', '{$status}', '{$agreement}', NULL, NULL, NULL)");
+                        $insert_query = mysqli_query($conn, "INSERT INTO physician (phyId, name, nric, email, password, phone, address, gender, accessLVL, status, agreement, specialist, image, info, reset_token)
+                        VALUES (0, '{$name}', '{$nric}', '{$email}', '{$encrypt_pass}', '{$phone}', NULL,  '{$gender}', '{$access_lvl}', '{$status}', '{$agreement}', NULL, NULL, NULL, NULL)");
                         if($insert_query){
                             $select_sql2 = mysqli_query($conn, "SELECT * FROM physician WHERE email = '{$email}'");
                             if(mysqli_num_rows($select_sql2) > 0){

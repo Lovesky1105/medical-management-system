@@ -13,7 +13,9 @@
         if(filter_var($email, FILTER_VALIDATE_EMAIL)){
             $sql = mysqli_query($conn, "SELECT * FROM users WHERE email = '{$email}'");
             if(mysqli_num_rows($sql) > 0){
-                echo "$email - This email already exist!";
+                $_SESSION['status'] = "$email - This email already exist!";
+                header("Location: ../registerForm.php");
+                exit(0);
             }else{
 
                 // Storingthe cipher method
@@ -32,14 +34,11 @@
                 // Using openssl_encrypt() function to encrypt the data
                 $encryption = openssl_encrypt($nric, $ciphering, $encryption_key, $options, $encryption_iv);
 
-
-                
-
                     $status = "Active now";
                     $agreement = "approve";
                     $encrypt_pass = md5($password);
-                    $insert_query = mysqli_query($conn, "INSERT INTO users (id, name, email, password, phone, address, nric, gender, accessLVL, status, agreement)
-                    VALUES (0, '{$name}', '{$email}', '{$encrypt_pass}', '{$phone}', '{$address}', '{$encryption}', '{$gender}', '{$access_lvl}', '{$status}', '{$agreement}')");
+                    $insert_query = mysqli_query($conn, "INSERT INTO users (id, name, email, password, phone, address, nric, gender, accessLVL, status, agreement, reset_token)
+                    VALUES (0, '{$name}', '{$email}', '{$encrypt_pass}', '{$phone}', '{$address}', '{$encryption}', '{$gender}', '{$access_lvl}', '{$status}', '{$agreement}', NULL)");
                     if($insert_query){
                         $select_sql2 = mysqli_query($conn, "SELECT * FROM users WHERE email = '{$email}'");
                         if(mysqli_num_rows($select_sql2) > 0){
@@ -48,18 +47,26 @@
                             echo "success";
                             header("location: ../index.php");
                         }else{
-                            echo "This email address not Exist!";
+                            $_SESSION['status'] = "This email address not Exist!";
+                            header("Location: ../registerForm.php");
+                            exit(0);
                         }
                         }else{
-                            print'<p style="color:red;">Could not retrieve the data because :<br/>' .mysqli_error($conn).
-                        '.</p><p>the query being run was : '.$insert_query.'</p>';
+                            $_SESSION['status'] = '<p style="color:red;">Could not insert the data because :<br/>' .mysqli_error($conn).
+                            '.</p><p>the query being run was : '.$insert_query.'</p>';
+                            header("Location: ../registerForm.php");
+                            exit(0);
                         }
                     }
         }else{
-            echo "$email is not a valid email!";
+            $_SESSION['status'] = "$email is not a valid email!";
+            header("Location: ../registerForm.php");
+            exit(0);
         }
     }else{
-        echo "All input fields are required!";
+        $_SESSION['status'] = "All input fields are required!";
+        header("Location: ../registerForm.php");
+        exit(0);
     }
 
     mysqli_close($conn);
