@@ -15,13 +15,12 @@ if (isset($_POST['approve'])) {
    
     
       // update database
-      $query = "UPDATE appointment SET 
+      $update_query = "UPDATE medicine SET 
               agreement = 'approve' 
-              WHERE medicineId = '$medicineId' "
-              ;
+              WHERE medicineId = '$medicineId'";
 
-      if (mysqli_query($conn, $query)) {
-        print "Medicine approve successfully!";
+      if (mysqli_query($conn, $update_query)) {
+        echo '<script>alert("Medicine approve successfully!")</script>'; 
         header("location: ../approveMedsForm.php");
 
         
@@ -35,13 +34,12 @@ if (isset($_POST['reject'])) {
    
     
     // update database
-    $query = "UPDATE medicine SET 
+    $update_query = "UPDATE medicine SET 
             agreement = 'reject' 
-            WHERE medicineId = '$medicineId' "
-            ;
+            WHERE medicineId = '$medicineId'";
 
-    if (mysqli_query($conn, $query)) {
-      print "Medicine approve successfully!";
+    if (mysqli_query($conn, $update_query)) {
+        echo '<script>alert("Medicine reject successfully!")</script>'; 
       header("location: ../approveMedsForm.php");
 
       

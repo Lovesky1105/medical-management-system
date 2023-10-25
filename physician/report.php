@@ -3,24 +3,22 @@ session_start();
 if(!isset($_SESSION['phyId'])){
   header("location: phyLoginForm.php");
 }
+$phyId = $_SESSION['phyId'];
 include_once "phyBackend/config.php";
 include_once "header.php"; 
 include_once "sidebar.php"; 
+
+$sql = "SELECT phyId, accessLvl FROM physician WHERE phyId = $phyId AND accessLvl = 'doctor'";
+$r = mysqli_query($conn, $sql );
+
+if($r && mysqli_num_rows($r) > 0){
 
 $currentMonth = date('m');
 $currentDate = date('Y-m-d');
 //if (isset($_POST['submit'])) {
   //$medicineId =  $_POST['medicineId'];
 
-  $maxUse_query = "SELECT SUM(medtransaction.amountSold) AS sumAmount, 
-                  medicine.medicineName ,medicine.medicineId 
-                  FROM medtransaction 
-                  LEFT JOIN medicine ON  medtransaction.medicineId = medicine.medicineId
-                  WHERE MONTH(date) = $currentMonth 
-                  GROUP BY medicineId";
-                  //AND medtransaction.medicineId = '{$medicineId}'
-                  
-                  /*GROUP BY medtransaction.medicineId";*/
+  
 
 $medicineId= array();
 $medicineName= array();
@@ -37,7 +35,7 @@ echo '<form action="report.php" method="post">';
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Search Meds</h1>
+      <h1>Report</h1>
     </div><!-- End Page Title -->
 
     <section class="section">
@@ -53,6 +51,13 @@ echo '<form action="report.php" method="post">';
             <div class="card-body">
             <h5 class="card-title">Result of medicine max monthly usage</h5>
                 <?php
+                  $maxUse_query = "SELECT SUM(medtransaction.amountSold) AS sumAmount, 
+                                  medicine.medicineName ,medicine.medicineId 
+                                  FROM medtransaction 
+                                  LEFT JOIN medicine ON  medtransaction.medicineId = medicine.medicineId
+                                  WHERE MONTH(date) = $currentMonth 
+                                  GROUP BY medicineId";
+
                     if($r = mysqli_query($conn, $maxUse_query ) ) {
                 
                       while ($row=mysqli_fetch_array($r)){
@@ -312,6 +317,19 @@ echo '<button type="submit" name="submit" class="btn btn-primary w-100">Generate
 <?php
 //}
     mysqli_close($conn);
+
+}else {
+  // The user does not have 'doctor' access level
+  echo '<main id="main" class="main">';
+
+    echo '<div class="pagetitle">';
+      echo '<h1>Report</h1>';
+    echo '</div>';
+
+    echo '<section class="section">';
+  echo "You are not a doctor. Access denied!";
+  echo '<section>';
+}
 ?>
 
 

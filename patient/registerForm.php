@@ -158,6 +158,20 @@ form .signup-link a:hover{
         <div class="title"><span>Grand Clinic Register Form</span></div>
         <form action="backend/register.php" method="POST" enctype="multipart/form-data" autocomplete="off">
 
+        <?php
+                    if(isset($_SESSION['status']))
+                    {
+                        ?>
+                        <div class="alert alert-success">
+                            <h5>
+                                <?= $_SESSION['status']; ?>
+                            </h5>
+                        </div>
+                        <?php
+                        unset($_SESSION['status']);
+                    }        
+                ?>
+
           <div class="row">
             <input type="text" name="name" placeholder="Name" required>
           </div>

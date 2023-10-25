@@ -6,7 +6,8 @@
     $access_lvl = "Patient";
     $agreement = "approve";
     if(!empty($email) && !empty($password)){
-        $sql = mysqli_query($conn, "SELECT * FROM users WHERE email = '{$email}' AND accessLVL = '{$access_lvl}' AND agreement = '{$agreement}' ");
+        $sql = mysqli_query($conn, "SELECT * FROM users 
+        WHERE email = '{$email}' AND accessLVL = '{$access_lvl}' AND agreement = '{$agreement}' ");
         if(mysqli_num_rows($sql) > 0){
             $row = mysqli_fetch_assoc($sql);
             $user_pass = md5($password);
@@ -18,19 +19,27 @@
                 if($sql2){
                     $_SESSION['id'] = $row['id'];
                     header("location: ../index.php");
-                    //echo "success";
                      
                 }else{
-                    echo "Something went wrong. Please try again!";
+                    $_SESSION['status'] = '<p style="color:red;">Could not update the data because :<br/>' .mysqli_error($conn).
+                    '.</p><p>the query being run was : '.$sql2.'</p>';
+                    header("Location: ../loginForm.php");
+                    exit(0);
                 }
             }else{
-                echo "Email or Password is Incorrect!";
+                $_SESSION['status'] =  "Email or Password is Incorrect!";
+                header("Location: ../loginForm.php");
+                exit(0);
             }
         }else{
-            echo "$email - This email not Exist!";
+            $_SESSION['status'] = "$email - This email not Exist!";
+            header("Location: ../loginForm.php");
+            exit(0);
         }
     }else{
-        echo "All input fields are required!";
+        $_SESSION['status'] =  "All input fields are required!";
+        header("Location: ../loginForm.php");
+        exit(0);
     }
 ?>
 

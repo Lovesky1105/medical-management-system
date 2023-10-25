@@ -154,6 +154,19 @@ form .signup-link a:hover{
       <div class="wrapper">
         <div class="title"><span>Grand Clinic Login Form</span></div>
         <form action="backend/login.php" method="POST" enctype="multipart/form-data" autocomplete="off">
+        <?php
+                    if(isset($_SESSION['status']))
+                    {
+                        ?>
+                        <div class="alert alert-success">
+                            <h5>
+                                <?= $_SESSION['status']; ?>
+                            </h5>
+                        </div>
+                        <?php
+                        unset($_SESSION['status']);
+                    }        
+                ?>
           <div class="row">
             <i class="fas fa-user"></i>
             <input type="text" name="email" placeholder="Email or Phone" required>
@@ -163,7 +176,7 @@ form .signup-link a:hover{
             <input type="password" name="password" placeholder="Password" required>
             <i class="fas fa-eye"></i>
           </div>
-          <div class="pass"><a href="#">Forgot password?</a></div>
+          <div class="pass"><a href="forgot-password.php">Forgot password?</a></div>
           <div class="row button">
             <input type="submit" name="submit" value="Login">
           </div>
