@@ -19,7 +19,11 @@ $agreement = "pending";
     </div><!-- End Page Title -->
 
 <section class="section">
-
+<div class="row">
+<div class="col-lg-12">
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">Account Pending to Approve</h5>
 <?php
 
 
@@ -28,11 +32,6 @@ $query="SELECT * FROM physician WHERE agreement = '{$agreement}' ";
 if($r = mysqli_query($conn, $query ) ) {
                 
     while ($row=mysqli_fetch_array($r)){
-      echo'<div class="row">';
-      echo'<div class="col-lg-12">';
-      echo '<div class="card">';
-          echo '<div class="card-body">'; 
-              echo '<h5 class="card-title">Account Pending to Approve</h5>';
                       
                   echo '<div class="row">'; 
                       echo '<div class="col-lg-3 col-md-8"> ';
@@ -41,20 +40,18 @@ if($r = mysqli_query($conn, $query ) ) {
                      
 
                       echo '<div class="col-lg-2 col-md-8"> ';
-                     
                       print "<p>email: {$row['email']}</p>";
                       echo '</div>';
                       
 
                       echo '<div class="col-lg-2 col-md-8"> ';
-                      
                       $phNo = substr($row['phone'], 5);
                       print "<p>phone: ***-***{$phNo}</p>";
                       echo '</div>';
                       
 
                       echo '<div class="col-lg-2 col-md-8"> ';
-                      $nric = substr($row['nric'], 6);
+                      $nric = substr($row['nric'], 8);
                       print "<p>NRIC : ******-**-{$nric}</p>";
                       echo '</div>';
 
@@ -75,15 +72,13 @@ if($r = mysqli_query($conn, $query ) ) {
                       print" <button type='submit' name='submitted' >
                       Submit
                       </button>";
+                      echo "<br/>";
+                      echo "<br/>";
 
         
         echo '</form>';
-        echo '</div>';
-        echo '</div>';
        
             }
-        
-        
     }else{
         print'<p style="color:red;">Could not retrieve the data because :<br/>' .mysqli_error($conn).
         '.</p><p>the query being run was : '.$query.'</p>';
@@ -91,7 +86,9 @@ if($r = mysqli_query($conn, $query ) ) {
 
 ?>
 </table>
-
+  </div>
+</div>
+</div>
  </section>
 
 </main><!-- End #main -->

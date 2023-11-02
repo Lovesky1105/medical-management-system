@@ -25,18 +25,6 @@ if (isset($_POST['view'])) {
     </div><!-- End Page Title -->
 
     <section class="section">
-      <div class="row">
-        <div class="col-lg-12">
-
-          <div class="card">
-            <div class="card-body">
-            <h5 class="card-title">Medicine Information</h5>
-                
-            </div>
-          </div>
-        </div>
-      </div><!--end row-->
-
       <!--responsive card-->
       <div class="row">
         <div class="col-lg-12">

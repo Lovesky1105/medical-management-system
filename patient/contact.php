@@ -30,6 +30,19 @@ include_once "navBar.php";
 
   <div class="page-section">
     <div class="container">
+      <div class="col-6 py-2 wow fadeInLeft">
+        <h4>Clinic Location : 18, Gread Garden, 12345 ,Bayan Baru, Penang</h4>
+      </div>
+      <div class="col-6 py-2 wow fadeInRight">
+        <h6>Emergency Contact : +604 2275789</h6>
+        <br/>
+        <h6>E-Mail : GreadClinic@gmail.com</h6>
+      </div>
+  </div>
+</div>
+
+  <div class="page-section">
+    <div class="container">
       <h1 class="text-center wow fadeInUp">Get in Touch</h1>
 
       <form class="contact-form mt-5" action="contact.php" method="post">
@@ -159,6 +172,8 @@ include_once "navBar.php";
 
     </div>
   </div>
+
+  
 
 
 

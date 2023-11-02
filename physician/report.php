@@ -282,7 +282,7 @@ echo '<button type="submit" name="submit" class="btn btn-primary w-100">Generate
 
           }//close for
             if($insert_query){
-              echo '<script>alert("Added successfully")</script>';
+              echo '<script>alert("Update successfully")</script>';
             }else{
             echo "Something went wrong. Please try again!";
             }

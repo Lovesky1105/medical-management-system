@@ -19,7 +19,7 @@
             WHERE medicineId = '$medicineId'";
             if(mysqli_query($conn, $update_query)){
                     $_SESSION['status'] = "Edit Successfully";
-                    header("Location: ../editMedsForm.php");
+                    header("Location: ../updateStockForm.php");
                 }else{
                     $_SESSION['status'] = '<p style="color:red;">Could not update the data because :<br/>' .mysqli_error($conn).
                     '.</p><p>the query being run was : '.$update_query.'</p>';

@@ -23,9 +23,9 @@
                             $select_sql2 = mysqli_query($conn, "SELECT * FROM physician WHERE email = '{$email}'");
                             if(mysqli_num_rows($select_sql2) > 0){
                                 $result = mysqli_fetch_assoc($select_sql2);
-                                $_SESSION['phyId'] = $result['phyId'];
+                                //$_SESSION['phyId'] = $result['phyId'];
                                 echo "success";
-                                header("location: ../submit.php");
+                                header("location: ../waitingApprove.html");
                             }else{
                                 header("location: ../loginEmailError.php");
                             }

@@ -25,6 +25,19 @@ include_once "sidebar.php";
     </div><!-- End Page Title -->
 
     <section class="section">
+      <?php
+        if(isset($_SESSION['status']))
+        {
+            ?>
+            <div class="alert alert-primary">
+                <h5>
+                    <?= $_SESSION['status']; ?>
+                </h5>
+            </div>
+            <?php
+            unset($_SESSION['status']);
+        }        
+      ?>
       <div class="row">
         <div class="col-lg-12">
 

@@ -44,7 +44,8 @@ $currentMonth = date('m');
                     <div class="ps-3">
                       <?php
                       $currentDate = date('Y-m-d');
-                      $sql = mysqli_query($conn, "SELECT SUM(amountSold) AS total FROM medTransaction WHERE date = '{$currentDate}'");
+                      $status = "sold";
+                      $sql = mysqli_query($conn, "SELECT SUM(amountSold) AS total FROM medTransaction WHERE date = '{$currentDate}' AND status = '{$status}'");
                       ?>
                       <h6>
                         <?php
@@ -207,7 +208,78 @@ $currentMonth = date('m');
           </div>
           </div><!-- End Reports -->
 
+          <div class="col-12">
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Bar Chart</h5>
+
+       <!-- Bar Chart -->
+       <div id="barChart" style="min-height: 400px;" class="echart"></div>
+
+      <?php
+      $currentYear = date('Y');
+      $query = "SELECT COUNT(appointmentId) AS total_appointment, MONTH(date) AS resultMonth
+                FROM appointment 
+                WHERE YEAR(date) = YEAR(CURRENT_DATE) AND status = 'done'
+                GROUP BY resultMonth";
+
+      if ($result = mysqli_query($conn, $query)) {
+        $resultMonths = [];
+        $totalAppointments = [];
+
+        while ($row = mysqli_fetch_array($result)) {
+          $resultMonth = $row['resultMonth'];
+          $total_appointment = $row['total_appointment'];
+          $resultMonths[] = $resultMonth;
+          $totalAppointments[] = $total_appointment;
+
+        
+          ?>
+        
+      <script>
+        document.addEventListener("DOMContentLoaded", () => {
+          var resultMonths = <?php echo json_encode($resultMonths); ?>;
+          var totalAppointments = <?php echo json_encode($totalAppointments); ?>;
+          var barChart = echarts.init(document.querySelector("#barChart"));
           
+          barChart.setOption({
+            title: {
+                text: 'Appointment Done in this year',
+                subtext: 'This bar chart represent the amount of appointment done  ',
+                left: 'center'
+            },
+            xAxis: {
+              type: 'category',
+              data: resultMonths,
+              name: 'Month',
+            },
+            yAxis: {
+              type: 'value',
+              name: 'Number of Appointments',
+            },
+            series: [{
+              data: totalAppointments,
+              type: 'bar',
+              label: {
+          show: true, // Show data labels on the bars
+          position: 'top' // Position of data labels
+        }
+            }]
+          });
+        });
+      </script>
+      <?php
+      }
+      }
+      
+      ?>
+
+<!-- End Bar Chart -->
+      <!-- End Bar Chart -->
+    </div>
+  </div>
+  
+</div>
 
 
             <!-- Top Selling -->
@@ -235,6 +307,7 @@ $currentMonth = date('m');
                             WHERE MONTH(date) = MONTH(CURRENT_DATE()) AND YEAR(date) = YEAR(CURRENT_DATE())
                             GROUP BY medicineId
                         ) AS t ON m.medicineId = t.medicineId
+                        WHERE m.agreement = 'approve' 
                         ORDER BY t.total_amount DESC";
                         if($r = mysqli_query($conn, $sum_query ) ) {
                 
@@ -381,6 +454,7 @@ $currentMonth = date('m');
   <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
   <script src="assets/vendor/tinymce/tinymce.min.js"></script>
   <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>

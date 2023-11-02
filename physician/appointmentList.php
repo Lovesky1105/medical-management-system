@@ -15,16 +15,23 @@ include_once "sidebar.php";
 
     <div class="pagetitle">
       <h1>Approved Appointment List</h1>
-      <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-          <li class="breadcrumb-item">Pages</li>
-          <li class="breadcrumb-item active">Blank</li>
-        </ol>
-      </nav>
+      
     </div><!-- End Page Title -->
 
     <section class="section">
+    <?php
+        if(isset($_SESSION['status']))
+        {
+            ?>
+            <div class="alert alert-primary">
+                <h5>
+                    <?= $_SESSION['status']; ?>
+                </h5>
+            </div>
+            <?php
+            unset($_SESSION['status']);
+        }        
+      ?>
       <div class="row">
         <div class="col-lg-12">
 

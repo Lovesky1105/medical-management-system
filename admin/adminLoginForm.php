@@ -34,16 +34,9 @@
   <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
   <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
 
-  <!-- Template Main CSS File -->
+ 
   <link href="assets/css/style.css" rel="stylesheet">
 
-  <!-- =======================================================
-  * Template Name: NiceAdmin
-  * Updated: Sep 18 2023 with Bootstrap v5.3.2
-  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
 </head>
 
 
@@ -74,6 +67,19 @@
                   </div>
 
                   <form class="row g-3 needs-validation" action="adminBackend/adminLogin.php" method="post" novalidate >
+                  <?php
+                  if(isset($_SESSION['error']))
+                          {
+                              ?>
+                              <div class="alert alert-primary">
+                                  <h5>
+                                      <?= $_SESSION['error']; ?>
+                                  </h5>
+                              </div>
+                              <?php
+                              unset($_SESSION['error']);
+                          }  
+                  ?>
 
                     <div class="col-12">
                       <label for="yourUsername" class="form-label">Email</label>

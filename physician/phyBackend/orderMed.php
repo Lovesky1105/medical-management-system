@@ -17,15 +17,16 @@
                         VALUES (0, '{$medicineId}', '{$medicineName}', '{$currentDate}', NULL, '{$orderAmount}', '{$status}')");
                         if($insert_query){
                                 header("location: ../updateStockForm.php");
-                                echo '<script>alert("Added successfully")</script>';
+                                $_SESSION['status'] = 'Order place successfully';
                                 
                             }else{
-                            echo "Something went wrong. Please try again!";
+                                print'<p style="color:red;">Could not retrieve the data because :<br/>' .mysqli_error($conn).
+                    '.</p><p>the query being run was : '.$insert_query.'</p>';
                             }
                     
         
     }else{
-        echo "All input fields are required!";
+        $_SESSION['status'] =  "All input fields are required!";
     }
 ?>
 

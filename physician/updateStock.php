@@ -104,7 +104,7 @@ include_once "sidebar.php";
             <form action="update.php" method="post" enctype="multipart/form-data">
             <div class="row mt-5 ">
                   <div class="col-12 col-sm-6 ">
-                  <div class="col-lg-3 col-md-4 label ">amount of sold</div>
+                  <div class="col-lg-3 col-md-4 label ">amount of Sold</div>
                     <input type="text" name="sold" class="form-control" placeholder="amount of sold">
                   </div>
                   
