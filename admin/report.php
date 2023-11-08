@@ -13,11 +13,11 @@ $currentDate = date('Y-m-d');
   //$medicineId =  $_POST['medicineId'];
 
   $maxUse_query = "SELECT SUM(medtransaction.amountSold) AS sumAmount, 
-                  medicine.medicineName ,medicine.medicineId 
-                  FROM medtransaction 
-                  LEFT JOIN medicine ON  medtransaction.medicineId = medicine.medicineId
-                  WHERE MONTH(date) = $currentMonth 
-                  GROUP BY medicineId";
+                                  medicine.medicineName ,medicine.medicineId 
+                                  FROM medtransaction 
+                                  LEFT JOIN medicine ON  medtransaction.medicineId = medicine.medicineId
+                                  WHERE MONTH(date) = $currentMonth AND YEAR(date) = YEAR(CURRENT_DATE())
+                                  GROUP BY medicineId";
                   //AND medtransaction.medicineId = '{$medicineId}'
                   
                   /*GROUP BY medtransaction.medicineId";*/
@@ -104,12 +104,12 @@ echo '<form action="report.php" method="post">';
             <div class="card-body">
             <h5 class="card-title">Result of medicine average monthly usage</h5>
                 <?php
-                $avgUse_query = "SELECT (SUM(medtransaction.amountSold) / COUNT(medtransaction.amountSold)) AS avgAmount, 
-                                  medicine.medicineName 
-                                  FROM medtransaction 
-                                  LEFT JOIN medicine ON  medtransaction.medicineId = medicine.medicineId
-                                  WHERE MONTH(date) = $currentMonth 
-                                  GROUP BY medtransaction.medicineId";
+               $avgUse_query = "SELECT ROUND((SUM(medtransaction.amountSold) / COUNT(medtransaction.amountSold)), 0) AS avgAmount, 
+                                medicine.medicineName 
+                                FROM medtransaction 
+                                LEFT JOIN medicine ON  medtransaction.medicineId = medicine.medicineId
+                                WHERE MONTH(date) = $currentMonth AND YEAR(date) = YEAR(CURRENT_DATE())
+                                GROUP BY medtransaction.medicineId";
                                   //AND medtransaction.medicineId = '{$medicineId}'
                     if($r = mysqli_query($conn, $avgUse_query ) ) {
                 
@@ -156,8 +156,7 @@ echo '<form action="report.php" method="post">';
                 <?php
                $maxDate_query = "SELECT MAX(DATEDIFF(receiveDate, orderDate)) AS difDate, 
                medicineName, medicineId
-               FROM orders 
-               WHERE MONTH(orderDate) = $currentMonth 
+               FROM orders  
                GROUP BY medicineId";
                //AND medicineId = '{$medicineId}'
                     if($r = mysqli_query($conn, $maxDate_query ) ) {
@@ -204,9 +203,9 @@ echo '<form action="report.php" method="post">';
             <div class="card-body">
             <h5 class="card-title">Result of medicine average reach day</h5>
                 <?php
-               $avgDate_query = "SELECT AVG(DATEDIFF(receiveDate, orderDate)) AS avgDifDate, medicineName, medicineId
+                $avgDate_query = "SELECT ROUND(AVG(DATEDIFF(receiveDate, orderDate)),0) AS avgDifDate,
+                medicineName, medicineId
                                   FROM orders 
-                                  WHERE MONTH(orderDate) = $currentMonth 
                                   GROUP BY medicineId";
                                   //AND medicineId = '{$medicineId}'
                     if($r = mysqli_query($conn, $avgDate_query ) ) {
