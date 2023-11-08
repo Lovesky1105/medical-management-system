@@ -48,18 +48,14 @@
           if (isset($_POST['submit'])) {
             $phyId = $_POST['phyId'];
 
-         
           $query="SELECT * FROM physician WHERE phyId = '$phyId'"; 
           if($r = mysqli_query($conn, $query ) ) {
-          
               while ($row=mysqli_fetch_array($r)){
                   
-                 
                 echo ' <div class="row">';
                 echo '<div class="col-md-4">';
                 echo '<div class="profile-img">';
                 print "<img src='../physician/phyBackend/{$row['image']}'/>";
-                
                 echo '</div>';
                 echo '</div>';
                   
@@ -76,9 +72,7 @@
                 echo "Email : <p>{$row['email']}</p>";
                 echo '</div>'; 
                 echo '</div>';
-                  
-                  }
-                  
+                }
               }else{
                   print'<p style="color:red;">Could not retrieve the data because :<br/>' .mysqli_error($conn).
                   '.</p><p>the query being run was : '.$query.'</p>';

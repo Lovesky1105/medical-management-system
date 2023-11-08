@@ -45,7 +45,9 @@ $currentMonth = date('m');
                       <?php
                       $currentDate = date('Y-m-d');
                       $status = "sold";
-                      $sql = mysqli_query($conn, "SELECT SUM(amountSold) AS total FROM medTransaction WHERE date = '{$currentDate}' AND status = '{$status}'");
+                      $sql = mysqli_query($conn, "SELECT SUM(amountSold) AS total 
+                      FROM medTransaction 
+                      WHERE date = '{$currentDate}' AND status = '{$status}'");
                       ?>
                       <h6>
                         <?php
@@ -150,54 +152,47 @@ $currentMonth = date('m');
                         FROM medtransaction 
                         WHERE MONTH(date) = '{$currentMonth}' 
                         GROUP BY category";
-                
-
-               
                 if($r = mysqli_query($conn, $query ) ) {
                   $data = array(); 
                   while ($row=mysqli_fetch_array($r)){
-                    
                     $category = "{$row['category']}";
                     $amount = "{$row['total_amount']}";
-
                     $data[] = array('value' => $amount, 'name' => $category);
-
               ?>
-
               <script>
                 document.addEventListener("DOMContentLoaded", () => {
-        const pieChart = echarts.init(document.querySelector("#pieChart"));
-        pieChart.setOption({
-            title: {
-                text: 'usage of medicine sort with category',
-                subtext: 'it will show the top sales of medicine type ',
-                left: 'center'
-            },
-            tooltip: {
-                trigger: 'item'
-            },
-            legend: {
-                orient: 'vertical',
-                left: 'left'
-            },
-            series: [
-                {
-                    name: 'Access From',
-                    type: 'pie',
-                    radius: '50%',
-                    data: <?php echo json_encode($data); ?> // Pass the data array as JSON
-                }
-            ],
-            emphasis: {
-                itemStyle: {
-                    shadowBlur: 10,
-                    shadowOffsetX: 0,
-                    shadowColor: 'rgba(0, 0, 0, 0.5)'
-                }
-            }
-        });
-    });
-</script>
+                const pieChart = echarts.init(document.querySelector("#pieChart"));
+                pieChart.setOption({
+                    title: {
+                        text: 'usage of medicine sort with category',
+                        subtext: 'it will show the top sales of medicine type ',
+                        left: 'center'
+                    },
+                    tooltip: {
+                        trigger: 'item'
+                    },
+                    legend: {
+                        orient: 'vertical',
+                        left: 'left'
+                    },
+                    series: [
+                        {
+                            name: 'Access From',
+                            type: 'pie',
+                            radius: '50%',
+                            data: <?php echo json_encode($data); ?> // Pass the data array as JSON
+                        }
+                    ],
+                    emphasis: {
+                        itemStyle: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                  });
+                 });
+              </script>
               <?php
                 }
               }
@@ -232,8 +227,6 @@ $currentMonth = date('m');
           $total_appointment = $row['total_appointment'];
           $resultMonths[] = $resultMonth;
           $totalAppointments[] = $total_appointment;
-
-        
           ?>
         
       <script>
@@ -310,7 +303,6 @@ $currentMonth = date('m');
                         WHERE m.agreement = 'approve' 
                         ORDER BY t.total_amount DESC";
                         if($r = mysqli_query($conn, $sum_query ) ) {
-                
                           while ($row=mysqli_fetch_array($r)){
                             echo "<tr>";
                             echo "<td class='text-primary fw-bold'>{$row['medicineName']}</td>";
@@ -319,10 +311,7 @@ $currentMonth = date('m');
                             echo "</tr>";
                           }
                         }
-                        
-
                         ?>
-                        
                     </tbody>
                   </table>
 
@@ -353,7 +342,6 @@ $currentMonth = date('m');
                       </tr>
                     </thead>
                     <tbody>
-                      
                         <?php
                         //compare current amount and safety stock
                         $order_query = "SELECT orderId, medicineName, orderDate, orderAmount 
@@ -371,8 +359,6 @@ $currentMonth = date('m');
                             echo "</tr>";
                           }
                         }
-                        
-
                         ?>
                         
                     </tbody>

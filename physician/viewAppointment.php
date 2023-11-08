@@ -44,21 +44,16 @@ include_once "sidebar.php";
           
             <?php
                 $query="SELECT * FROM appointment WHERE phyId='".$_SESSION['phyId']."' AND status ='pending' ";
-                
-                
                 if($r = mysqli_query($conn, $query ) ) {
-                
                     while ($row=mysqli_fetch_array($r)){
                     
                         echo '<div class="card">';
                         echo '<div class="card-body">';
-
                         echo '<form action="phyBackend/approveAppointment.php" method="POST">';
                         $appointmentId = $row['appointmentId'];
                         echo "<input type='hidden' name='appointmentId' value='{$appointmentId}'>";
                         print "<p>Patient ID: {$row['id']}</p>";
                         print "<p>Patient Name: {$row['patientName']}</p>";
-
                          
                         $method = "AES-256-CBC";
                         $key = "secret";

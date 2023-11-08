@@ -42,17 +42,19 @@ if (isset($_POST['edit'])) {
             <form action="phyBackend/editMeds.php" method="post" enctype="multipart/form-data">
             <div class="row mt-5 ">
                   <div class="col-12 col-sm-12 ">
-                  <div class="col-lg-3 col-md-4 label ">New Medicine Name</div>
+                  <div class="col-lg-3 col-md-4 label ">Medicine Name</div>
                     <input type="text" name="medicineName" class="form-control" placeholder="New Medicine Name">
                     <br/>
                   </div>
                   
                <div class="col-12 py-2 wow fadeInUp" data-wow-delay="300ms">
+               <div class="col-lg-3 col-md-4 label ">Medicine efficacy</div>
                 <textarea name="efficacy" id="efficacy" class="form-control" rows="6" placeholder="Medical Efficacy"></textarea>
                 <br/>
               </div>   
 
               <div class="col-12 py-2 wow fadeInUp" data-wow-delay="300ms">
+              <div class="col-lg-3 col-md-4 label ">Medicine Important Notes</div>
                 <textarea name="impNotes" id="impNotes" class="form-control" rows="6" placeholder="Important notes of medicine"></textarea>
                 <br/>
               </div>
@@ -60,8 +62,7 @@ if (isset($_POST['edit'])) {
                   <div class="col-lg-3 col-md-4 label ">Medicine Category</div>
                   <div class="col-sm-10" class="col-12 py-2 ">
                     <select name="category" class="form-select" aria-label="Default select example">
-                      <option selected> Open this to select medicine category</option>
-                      <option value="type 1">type 1 </option>
+                      <option selected value="type 1">type 1 </option>
                       <option value="type 2">type 2 </option>
                       <option value="type 3">type 3 </option>
                       <option value="type 4">type 4 </option>

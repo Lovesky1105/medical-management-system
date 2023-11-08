@@ -19,6 +19,19 @@ $agreement = "pending";
     </div><!-- End Page Title -->
 
 <section class="section">
+<?php
+            if(isset($_SESSION['status']))
+                    {
+                        ?>
+                        <div class="alert alert-primary">
+                            <h5>
+                                <?= $_SESSION['status']; ?>
+                            </h5>
+                        </div>
+                        <?php
+                        unset($_SESSION['status']);
+                    }  
+            ?>
 <div class="row">
 <div class="col-lg-12">
 <div class="card">
@@ -63,6 +76,7 @@ if($r = mysqli_query($conn, $query ) ) {
                       echo '<form action="adminBackend/adminApproveAccount.php" method="POST">';
                       echo "<input type='hidden' name='name' value='{$row['name']}'>";
                       echo "<input type='hidden' name='email' value='{$row['email']}'>"; 
+                      echo "<input type='hidden' name='adminId' value='{$_SESSION['adminId']}'>"; 
         
                       echo' <select name="agreement" id="agreement" >
                         <option value="approve">Approve</option>

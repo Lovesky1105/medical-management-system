@@ -85,7 +85,7 @@
                     <div class="col-12">
                       <label for="yourPassword" class="form-label">Password</label>
                       <input type="password" name="password" class="form-control" id="yourPassword" required>
-
+                      <i class="bi bi-eye" onclick="seePsw()"></i> 
                       <div class="invalid-feedback">Please enter your password!</div>
                     </div>
 
@@ -112,6 +112,17 @@
 
     </div>
   </main><!-- End #main -->
+
+  <script>
+    function seePsw() {
+  var x = document.getElementById("yourPassword");
+  if (x.type === "password") {
+    x.type = "text";
+  } else {
+    x.type = "password";
+  }
+}
+</script>
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 

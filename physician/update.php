@@ -23,10 +23,12 @@ if(!isset($_SESSION['phyId'])){
           <div class="card">
             <div class="card-body pt-3">
               <div class="tab-content pt-2">
-                  <h5 class="card-title">Medicine Details</h5>
+                  <h5 class="card-title">Update Stock</h5>
                   <?php
                     if (isset($_POST['confirm'])) {
+                      
                         $medicineId =  $_POST['medicineId'];
+                        $phyId = $_POST['phyId'];
                         $category = $_POST['category'];
                         $query="SELECT * FROM medicine WHERE medicineId='{$medicineId}' "; 
                         $sold = mysqli_real_escape_string($conn, $_POST['sold']);
@@ -37,11 +39,9 @@ if(!isset($_SESSION['phyId'])){
                             // Fetch data from the result
                             $row = mysqli_fetch_assoc($result);
                                 if ($row) {
-                                    // Access data using $row['columnName']
+                                    
                                     $quantity = $row['amount'];
                                     
-                                    // Do something with the fetched data
-                                    // For example, subtract $sold from the quantity
                                     $newQuantity = $quantity - $sold;
 
                                     $sql="UPDATE medicine SET 
@@ -50,10 +50,14 @@ if(!isset($_SESSION['phyId'])){
 
                                     if (mysqli_query($conn, $sql)) {
                                       echo  "update successfully!";
+                                      echo "<br/>";
+                                      echo '<button class="btn btn-outline-success" ><a href="updateStockForm.php">Back</a></button>';
                                       $currentDate = date('Y-m-d');
                                       $status = "sold";
-                                      $insert_query = mysqli_query($conn, "INSERT INTO medtransaction (transId, medicineId, category, date, amountSold, oriAmount, newAmount, status)
-                                      VALUES (0, '{$medicineId}', '{$category}', '{$currentDate}', '{$sold}' , '{$quantity}' , '{$newQuantity}', '{$status}')");
+                                      $insert_query = mysqli_query($conn, "INSERT INTO medtransaction (transId, medicineId, 
+                                      phyId, category, date, amountSold, oriAmount, newAmount, status)
+                                      VALUES (0, '{$medicineId}', '{$phyId}','{$category}', 
+                                      '{$currentDate}', '{$sold}' , '{$quantity}' , '{$newQuantity}', '{$status}')");
                                       
                                     }else {
                                       echo '<p style="color:red;">Could not retrieve the data because :<br/>' .mysqli_error($conn).
@@ -64,21 +68,20 @@ if(!isset($_SESSION['phyId'])){
                               echo'<p style="color:red;">Could not retrieve the data because :<br/>' .mysqli_error($conn).
                                 '.</p><p>the query being run was : '.$query.'</p>';
                                 
+                            }
                             }// close if result
-                            }else{
-                              $_SESSION['status'] = "Please fill in number. Only numner are acceptable";
-                              
-                                }//close check number
                         }else{
-                          echo "Please fill in all field";
-                          
-                        
+                          echo "Please fill in number. Only numner are acceptable";
                         }//close if empty
+                      }else{
+                        echo "Please fill in all field";
+                      
+                      }
 
                     }//close if comfirm
 
                     mysqli_close($conn);
-                  }
+                  
                 ?>
                 </div>
                 </div>

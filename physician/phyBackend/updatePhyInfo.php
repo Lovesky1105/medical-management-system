@@ -10,6 +10,7 @@ if (isset($_POST['submit'])) {
     $intro = mysqli_real_escape_string($conn, $_POST['intro']);
     $address = mysqli_real_escape_string($conn, $_POST['address']);
    if(!empty($email) && !empty($phone) && !empty($departement) && !empty($intro)  && !empty($address)){  
+    if (is_numeric($phone)) {
     if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
       $image = mysqli_real_escape_string($conn, $_FILES['image']['name']);
       $target_dir = "uploads/";
@@ -17,8 +18,6 @@ if (isset($_POST['submit'])) {
 
     $uploadOk = 1;
     $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-
-
 
     $check = getimagesize($_FILES["image"]["tmp_name"]);
     if($check !== false) {
@@ -30,21 +29,18 @@ if (isset($_POST['submit'])) {
       header("location: ../users-profile.php");
       $uploadOk = 0;
     }
-
     // Check if file already exists
   if (file_exists($target_file)) {
     $_SESSION['status'] =  "Sorry, file already exists.";
     header("location: ../users-profile.php");
     $uploadOk = 0;
     }
-  
   // Check file size
   if ($_FILES["image"]["size"] > 500000) {
     $_SESSION['status'] =  "Sorry, your file is too large.";
     header("location: ../users-profile.php");
     $uploadOk = 0;
   }
-  
   // Allow certain file formats
   if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
   && $imageFileType != "gif" ) {
@@ -52,7 +48,6 @@ if (isset($_POST['submit'])) {
     header("location: ../users-profile.php");
     $uploadOk = 0;
   }
-  
   // Check if $uploadOk is set to 0 by an error
   if ($uploadOk == 0) {
     
@@ -72,8 +67,6 @@ if (isset($_POST['submit'])) {
       if (mysqli_query($conn, $query)) {
       $_SESSION['status'] =  "update successfully!";
       header("location: ../users-profile.php");
-
-
       }else {
       $_SESSION['status'] = '<p style="color:red;">Could not retrieve the data because :<br/>' .mysqli_error($conn).
                   '.</p><p>the query being run was : '.$query.'</p>';
@@ -88,6 +81,11 @@ if (isset($_POST['submit'])) {
     $_SESSION['status'] =  "Image upload failed or was not provided.";
     header("location: ../users-profile.php");
   }
+}else{
+  $_SESSION['status'] = "phone input is not a number!";
+  header("Location: ../users-profile.php");
+  exit(0);
+}
   
   }else{
     $_SESSION['status'] =  "All input fields are required!";

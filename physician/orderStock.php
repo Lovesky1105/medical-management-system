@@ -9,6 +9,7 @@ include_once "sidebar.php";
 
   if (isset($_POST['submit'])) {
     $medicineId =  $_POST['medicineId'];
+    $phyId = $_SESSION['phyId'];
 
     $query = "SELECT * FROM medicine WHERE medicineId = '{$medicineId}'"; 
 
@@ -105,6 +106,7 @@ include_once "sidebar.php";
                   <div class="col-lg-3 col-md-4 label ">Amount of Order</div>
                     <input type="text" name="orderAmount" class="form-control" placeholder="amount of order">
                   </div>
+                  <input type="hidden" name="phyId" value="<?php echo "$phyId";?>">
                   <input type="hidden" name="medicineId" value="<?php echo "$medicineId";?>">
                   <input type="hidden" name="medicineName" value="<?php echo "$medicineName";?>">
                   <button type='submit' name='confirm' >

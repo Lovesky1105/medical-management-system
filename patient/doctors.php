@@ -59,16 +59,12 @@
                   echo '</div>';//close zoomIn
                   echo '</div>';//close row
                   }
-                  
               }else{
                   print'<p style="color:red;">Could not retrieve the data because :<br/>' .mysqli_error($conn).
                   '.</p><p>the query being run was : '.$query.'</p>';
               }
-          
               mysqli_close($conn);
-          
           ?>
-
         </div>
       </div>
     </div> <!-- .container -->

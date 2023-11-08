@@ -1,6 +1,7 @@
 <?php
 session_start();
 include_once "config.php";
+    $phyId = $_SESSION['phyId'];
     $agreement = "pending";
     $medicineId = $_POST['medicineId'];
  //$appointmentId = mysqli_real_escape_string($conn, $_POST['appointmentId']);
@@ -11,7 +12,8 @@ if (isset($_POST['approve'])) {
     
       // update database
       $update_query = "UPDATE medicine SET 
-              agreement = 'approve' 
+              agreement = 'approve',
+              phyId = '$phyId'
               WHERE medicineId = '$medicineId'";
 
       if (mysqli_query($conn, $update_query)) {

@@ -33,6 +33,19 @@ if(isset($_POST['delete'])){
 </div><!-- End Page Title -->
 
 <section class="section">
+<?php
+            if(isset($_SESSION['status']))
+                    {
+                        ?>
+                        <div class="alert alert-primary">
+                            <h5>
+                                <?= $_SESSION['status']; ?>
+                            </h5>
+                        </div>
+                        <?php
+                        unset($_SESSION['status']);
+                    }  
+            ?>
 <div class="row">
         <div class="col-lg-12">
 
@@ -45,7 +58,7 @@ if(isset($_POST['delete'])){
                 <div class="row mb-3">
                   <label for="slotName" class="col-sm-2 col-form-label">Slot Name</label>
                   <div class="col-sm-10">
-                  <input type="text" name="slot" placeholder="Please enter the slot name.. e.g. slot 1" id="slotName">
+                  <input type="text" name="slot" placeholder="slot name" id="slotName">
                   </div>
                 </div>
                 <div class="row mb-3">

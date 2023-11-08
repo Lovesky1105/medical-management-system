@@ -27,12 +27,7 @@
 
   <?php
                 $query="SELECT * FROM users WHERE id='".$_SESSION['id']."' ";
-                //$query2="SELECT phone FROM users WHERE id='".$_SESSION['id']."' ";
-                //$query3="SELECT RIGHT(phone, 4) FROM users WHERE id='".$_SESSION['id']."' ";
-                
-                
                 if($r = mysqli_query($conn, $query ) ) {
-                
                     while ($row=mysqli_fetch_array($r)){
                     
                       ?>
@@ -66,7 +61,6 @@
           <?php 
           $method = "AES-256-CBC";
           $key = "secret";
-          
           if (isset($row['nric'])) {
               $encryption = $row['nric'];
 
@@ -154,8 +148,6 @@
         } else {
             echo "Error in query3: " . mysqli_error($conn);
         }
-        
-                    
           echo '<div class="row mb-3">';
           echo '<div class="col-sm-6 py-2 wow fadeInLeft">';
           echo "Appointment ID:  {$row["appointmentId"]} </p>";

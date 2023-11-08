@@ -19,7 +19,7 @@ $agreement = "approve";
     $search_query = mysqli_query($conn, $query);  
 
     if(!$search_query) {
-        die("Database query failed");
+        die("No Result found");
     }else{
 
 ?>

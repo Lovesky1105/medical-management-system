@@ -12,6 +12,7 @@ include_once "config.php";
     $address = $_POST['address'];
     $phone = $_POST['phone'];
     if(!empty($name) && !empty($email) && !empty($address) && !empty($phone)){  
+      if (is_numeric($phone)) {
       if(filter_var($email, FILTER_VALIDATE_EMAIL)){
         $sql = mysqli_query($conn, "SELECT * FROM users WHERE email = '{$email}'");
         if(mysqli_num_rows($sql) > 0){
@@ -38,6 +39,11 @@ include_once "config.php";
     $_SESSION['status'] = "$email is not a valid email!";
     header("Location: ../profile.php");
     exit(0);}
+  }else{
+    $_SESSION['status'] = "phone input is not a number!";
+    header("Location: ../profile.php");
+    exit(0);
+}
     
     
   }else{

@@ -33,6 +33,7 @@
   
   <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/>
+    
 
   <style>
 
@@ -173,8 +174,8 @@ form .signup-link a:hover{
           </div>
           <div class="row">
             <i class="fas fa-lock"></i>
-            <input type="password" name="password" placeholder="Password" required>
-            <i class="fas fa-eye"></i>
+            <input type="password" name="password" placeholder="Password" id="myInput" required>
+            <i class="fas fa-eye" onclick="seePsw()"></i>
           </div>
           <div class="pass"><a href="forgot-password.php">Forgot password?</a></div>
           <div class="row button">
@@ -185,8 +186,16 @@ form .signup-link a:hover{
       </div>
     </div>
 
-
-
+<script>
+    function seePsw() {
+  var x = document.getElementById("myInput");
+  if (x.type === "password") {
+    x.type = "text";
+  } else {
+    x.type = "password";
+  }
+}
+</script>
 
 </body>
 

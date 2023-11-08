@@ -3,17 +3,18 @@ session_start();
 include_once "config.php";
     $agreement = "pending";
     $appointmentId = $_POST['appointmentId'];
+    $status = $_POST['agreement'];
 
 $query="SELECT * FROM appointment WHERE appointmentId = '{$appointmentId}' AND status = '{$agreement}'";
 
 if (isset($_POST['submitted'])) {
    
       $query = "UPDATE appointment SET 
-              status = 'approve' 
+              status = '$status' 
               WHERE appointmentId = '$appointmentId'";
 
       if (mysqli_query($conn, $query)) {
-        $_SESSION['status'] = "appointment approve successfully!";
+        $_SESSION['status'] = "appointment {$status} successfully!";
         header("location: ../viewAppointment.php");
 
         

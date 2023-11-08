@@ -15,10 +15,6 @@ if($r && mysqli_num_rows($r) > 0){
 
 $currentMonth = date('m');
 $currentDate = date('Y-m-d');
-//if (isset($_POST['submit'])) {
-  //$medicineId =  $_POST['medicineId'];
-
-  
 
 $medicineId= array();
 $medicineName= array();
@@ -55,38 +51,25 @@ echo '<form action="report.php" method="post">';
                                   medicine.medicineName ,medicine.medicineId 
                                   FROM medtransaction 
                                   LEFT JOIN medicine ON  medtransaction.medicineId = medicine.medicineId
-                                  WHERE MONTH(date) = $currentMonth 
+                                  WHERE MONTH(date) = $currentMonth AND YEAR(date) = YEAR(CURRENT_DATE())
                                   GROUP BY medicineId";
 
                     if($r = mysqli_query($conn, $maxUse_query ) ) {
                 
                       while ($row=mysqli_fetch_array($r)){
                         echo '<div class="row">'; 
-
-                        
                         echo '<div class="col-lg-3 col-md-4 label">Medicine Name</div>';
                         echo '<div class="col-lg-3 col-md-8"> ';
                         print "{$row['medicineName']}";
-                        //$medicineName = "{$row['medicineName']}";
-                        //$medicineName[] = array('medicineName' => $medicineName);
                         $medicineName[] = $row['medicineName'];
 
-                        //$medicineId = "{$row['medicineId']}";
                         $medicineId[] = $row['medicineId'];
-
                         echo '</div>';
-                        
-
-                        
                         echo '<div class="col-lg-3 col-md-4 label">total amount sold in the month</div>';
                         echo '<div class="col-lg-3 col-md-8"> ';
                         print "{$row['sumAmount']}";
-                        //$sumAmount = "{$row['sumAmount']}";
-                        //$sumAmount[] = array('maxAmount' => $sumAmount);
                         $sumAmount[] = $row['sumAmount'];
                         echo '</div>';
-                        
-
                         echo '</div>';
                       }
 
@@ -113,7 +96,7 @@ echo '<form action="report.php" method="post">';
                                 medicine.medicineName 
                                 FROM medtransaction 
                                 LEFT JOIN medicine ON  medtransaction.medicineId = medicine.medicineId
-                                WHERE MONTH(date) = $currentMonth 
+                                WHERE MONTH(date) = $currentMonth AND YEAR(date) = YEAR(CURRENT_DATE())
                                 GROUP BY medtransaction.medicineId";
                                   //AND medtransaction.medicineId = '{$medicineId}'
                     if($r = mysqli_query($conn, $avgUse_query ) ) {
@@ -126,14 +109,9 @@ echo '<form action="report.php" method="post">';
                         echo '<div class="col-lg-3 col-md-8"> ';
                         print "{$row['medicineName']}";
                         echo '</div>';
-                        
-
-                        
                         echo '<div class="col-lg-3 col-md-4 label">average amount sold in the month</div>';
                         echo '<div class="col-lg-3 col-md-8"> ';
                         print "{$row['avgAmount']}";
-                        //$avgAmount = "{$row['avgAmount']}";
-                        //$avgAmount[] = array('maxReachTime' => $avgAmount);
                         $avgAmount[] = $row['avgAmount'];
                         echo '</div>';
                         
@@ -161,28 +139,22 @@ echo '<form action="report.php" method="post">';
                 <?php
                $maxDate_query = "SELECT MAX(DATEDIFF(receiveDate, orderDate)) AS difDate, 
                medicineName, medicineId
-               FROM orders 
-               WHERE MONTH(orderDate) = $currentMonth 
+               FROM orders  
                GROUP BY medicineId";
                //AND medicineId = '{$medicineId}'
+               //WHERE MONTH(orderDate) = $currentMonth
                     if($r = mysqli_query($conn, $maxDate_query ) ) {
                 
                       while ($row=mysqli_fetch_array($r)){
                         echo '<div class="row">'; 
-
-                        
                         echo '<div class="col-lg-3 col-md-4 label">Medicine Name</div>';
                         echo '<div class="col-lg-3 col-md-8"> ';
                         print "{$row['medicineName']}";
                         echo '</div>';
                         
-
-                        
                         echo '<div class="col-lg-3 col-md-4 label">max date to reach </div>';
                         echo '<div class="col-lg-3 col-md-8"> ';
                         print "{$row['difDate']}";
-                        //$difDate = "{$row['difDate']}";
-                        //$difDate[] = array('maxReachTime' => $difDate);
                         $difDate[] = $row['difDate'];
                         echo '</div>';
                         
@@ -209,40 +181,29 @@ echo '<form action="report.php" method="post">';
             <div class="card-body">
             <h5 class="card-title">Result of medicine average reach day</h5>
                 <?php
-               $avgDate_query = "SELECT ROUND(AVG(DATEDIFF(receiveDate, orderDate)),0) AS avgDifDate, medicineName, medicineId
+               $avgDate_query = "SELECT ROUND(AVG(DATEDIFF(receiveDate, orderDate)),0) AS avgDifDate,
+                medicineName, medicineId
                                   FROM orders 
-                                  WHERE MONTH(orderDate) = $currentMonth 
                                   GROUP BY medicineId";
-                                  //AND medicineId = '{$medicineId}'
                     if($r = mysqli_query($conn, $avgDate_query ) ) {
                 
                       while ($row=mysqli_fetch_array($r)){
                         echo '<div class="row">'; 
-
-                        
                         echo '<div class="col-lg-3 col-md-4 label">Medicine Name</div>';
                         echo '<div class="col-lg-3 col-md-8"> ';
                         print "{$row['medicineName']}";
                         echo '</div>';
-                        
 
-                        
                         echo '<div class="col-lg-3 col-md-4 label">average date to reach </div>';
                         echo '<div class="col-lg-3 col-md-8"> ';
                         print "{$row['avgDifDate']}";
-                        //$avgDifDate = "{$row['avgDifDate']}";
-                        //$avgDifDate[] = array('avgReachTime' => $avgDifDate);
                         $avgDifDate[] = $row['avgDifDate'];
                         echo '</div>';
                         
 
                         echo '</div>';
                       }
-
-                      
                    }
-                   
-                
            echo "</div>"; 
            echo "</div>"; 
            echo "</div>"; 
@@ -251,34 +212,16 @@ echo '<button type="submit" name="submit" class="btn btn-primary w-100">Generate
                     
                 ?>
        <?php
-        /*$count_query = "SELECT COUNT(medicineId) AS totalRow 
-        FROM medicine ";
-        echo '<form action="phyBackend/reportGenerate.php" method="post">';
-      if($r = mysqli_query($conn, $count_query ) ) {
-                      
-        while ($row=mysqli_fetch_array($r)){
-          
-        echo '<form action="phyBackend/reportGenerate.php" method="post">';
-        echo "<input type='hidden' name='medicineId' value='{$medicineId}'>";
-        echo "<input type='hidden' name='medicineName' value='{$medicineName}'>";
-        echo "<input type='hidden' name='sumAmount' value=' {$sumAmount}'>";
-        echo "<input type='hidden' name='avgAmount' value=' {$avgAmount} '>";
-        echo "<input type='hidden' name='difDate' value='{$difDate}'>";
-        echo "<input type='hidden' name='avgDifDate' value='{$avgDifDate}'>";
-        echo '<button type="submit" name="submit" class="btn btn-primary w-100">Generate Report</button>';
-        echo "</form>";
-        }
-      }*/
-
 
       if(isset($_POST["submit"])){
       for ($i = 0; $i < count($medicineId); $i++) {
         $safetyStock[$i] = ($sumAmount[$i] * $difDate[$i]) - ($avgAmount[$i]*$avgDifDate[$i]);
         $rop[$i] = ($avgAmount[$i] * $difDate[$i])+ $safetyStock[$i];
         $insert_query = mysqli_query($conn, "INSERT INTO report 
-                        (reportId, medicineId, medicineName, dateGenerate, maxAmount, avgAmount, maxReachTime, avgReachTime, safetyStock, reorderPoint)
-                        VALUES (0, '{$medicineId[$i]}', '{$medicineName[$i]}', '{$currentDate}', '{$sumAmount[$i]}', '{$avgAmount[$i]}', 
-                        '{$difDate[$i]}', '{$avgDifDate[$i]}', '{$safetyStock[$i]}', '{$rop[$i]}')");
+                        (reportId, medicineId, medicineName, dateGenerate, maxAmount, 
+                        avgAmount, maxReachTime, avgReachTime, safetyStock, reorderPoint)
+                        VALUES (0, '{$medicineId[$i]}', '{$medicineName[$i]}', '{$currentDate}', '{$sumAmount[$i]}', 
+                        '{$avgAmount[$i]}', '{$difDate[$i]}', '{$avgDifDate[$i]}', '{$safetyStock[$i]}', '{$rop[$i]}')");
 
           }//close for
             if($insert_query){

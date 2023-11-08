@@ -9,6 +9,7 @@
     $agreement = "pending";
     
     if(!empty($medName) && !empty($efficacy) && !empty($impNotes) && !empty($category)){
+        
                         
             $update_query = "UPDATE medicine SET 
             medicineName = '$medName',
@@ -23,13 +24,13 @@
                 }else{
                     $_SESSION['status'] = '<p style="color:red;">Could not update the data because :<br/>' .mysqli_error($conn).
                     '.</p><p>the query being run was : '.$update_query.'</p>';
-                    header("Location: ../editMedsForm.php");
+                    header("Location: ../updateStockForm.php");
                 }
                     
         
     }else{
         $_SESSION['status'] = "All input fields are required!";
-        header("Location: ../editMedsForm.php");
+        header("Location: ../updateStockForm.php");
     }
 ?>
 

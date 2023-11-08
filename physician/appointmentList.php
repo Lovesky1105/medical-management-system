@@ -38,8 +38,6 @@ include_once "sidebar.php";
           
             <?php
                 $query="SELECT * FROM appointment WHERE phyId='".$_SESSION['phyId']."' AND status ='approve' ORDER BY date DESC ";
-                
-                
                 if($r = mysqli_query($conn, $query ) ) {
                 
                     while ($row=mysqli_fetch_array($r)){
@@ -62,10 +60,7 @@ include_once "sidebar.php";
                         echo '</form>';
                         echo '</div>';
                         echo '</div>';
-                        
                             }
-                        
-                        
                     }else{
                         print'<p style="color:red;">Could not retrieve the data because :<br/>' .mysqli_error($conn).
                         '.</p><p>the query being run was : '.$query.'</p>';

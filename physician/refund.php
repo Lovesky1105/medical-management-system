@@ -54,7 +54,9 @@ if(!isset($_SESSION['phyId'])){
                                     if (mysqli_query($conn, $sql)) {
                                       if (mysqli_query($conn, $update_status_sql)) {
 
-                                      echo  "update successfully!";
+                                      echo  "delete successfully!";
+                                      echo "<br/>";
+                                      echo '<button class="btn btn-outline-success" ><a href="salesList.php">Back</a></button>';
                                       $currentDate = date('Y-m-d');
                                       $insert_query = mysqli_query($conn, "INSERT INTO removeitem (deleteId, transId, medicineId, date, deleteAmount, newAmount, reason)
                                       VALUES (0, '{$transId}', '{$medicineId}', '{$currentDate}', '{$sold}', '{$newQuantity}', '{$reason}')");

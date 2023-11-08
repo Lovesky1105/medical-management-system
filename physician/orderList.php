@@ -52,6 +52,7 @@ include_once "sidebar.php";
                         echo "<input type='hidden' name='orderAmount' value='{$row['orderAmount']}'>";
                         print "<p>Medicine ID: {$row['medicineId']}</p>";
                         print "<p>Medicine Name: {$row['medicineName']}</p>";
+                        print "<p>Order By: {$row['phyId']}</p>";
                         print "<p>Order Date: {$row['orderDate']}</p>";
                         print "<p>Order Amount: {$row['orderAmount']}</p>";
                         echo '<button class="btn btn-primary w-100" type="submit" name="receive">Receive</button>';
