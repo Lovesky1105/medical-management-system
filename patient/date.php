@@ -36,36 +36,40 @@ $agreement = "approve";
    <div class="page-section">
     <div class="container">
       <h1 class="text-center wow fadeInUp">Make an Appointment</h1>
+      <?php
+                    if(isset($_SESSION['status']))
+                    {
+                        ?>
+                        <div class="alert alert-success">
+                            <h5>
+                                <?= $_SESSION['status']; ?>
+                            </h5>
+                        </div>
+                        <?php
+                        unset($_SESSION['status']);
+                    }        
+                ?>
 
       <form class="main-form" action="timeSlot.php" method="post">
         <div class="row mt-5 ">
-
-        
           <div class="col-12 col-sm-6 py-2 wow fadeInLeft" data-wow-delay="300ms">
             <p>Please select a date that you want to make an appointment</p>
             <input type="date" name="date" class="form-control">
           </div>
-
           <div class="col-12 py-2 wow fadeInUp" data-wow-delay="300ms">
           <p>Please select a doctor that you want to make an appointment</p>
           <select name="phyId" id="phyId" class="custom-select">
             <?php
             $query="SELECT * FROM physician WHERE agreement = '{$agreement}' AND accessLvl = 'Doctor'";
             if($r = mysqli_query($conn, $query ) ) {
-                
               while ($row=mysqli_fetch_array($r)){
-
                 print "<option value='{$row['phyId']}'>{$row['name']} / {$row['specialist']}</option>";
-
               }// close while loop
-
             }else{
               print'<p style="color:red;">Could not retrieve the data because :<br/>' .mysqli_error($conn).
               '.</p><p>the query being run was : '.$query.'</p>';
             }//close if
-
             mysqli_close($conn);
-
             ?>
 
           </select>
@@ -78,9 +82,9 @@ $agreement = "approve";
   </div> 
 
   <script type="text/javascript">
-    window.onload=function(){//from ww  w . j  a  va2s. c  o  m
-var today = new Date().toISOString().split('T')[0];
-document.getElementsByName("date")[0].setAttribute('min', today);
+    window.onload=function(){
+    var today = new Date().toISOString().split('T')[0];
+    document.getElementsByName("date")[0].setAttribute('min', today);
     }
 
       </script> 

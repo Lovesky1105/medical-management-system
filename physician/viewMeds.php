@@ -9,6 +9,7 @@ include_once "sidebar.php";
 $agreement = "approve";
 
 if (isset($_POST['view'])) {
+
     $medicineId =  $_POST['medicineId'];
     $query = "SELECT * FROM medicine WHERE agreement= '{$agreement}' AND medicineId = '{$medicineId}' ";
     $view_query = mysqli_query($conn, $query);  
@@ -25,18 +26,6 @@ if (isset($_POST['view'])) {
     </div><!-- End Page Title -->
 
     <section class="section">
-      <div class="row">
-        <div class="col-lg-12">
-
-          <div class="card">
-            <div class="card-body">
-            <h5 class="card-title">Medicine Information</h5>
-                
-            </div>
-          </div>
-        </div>
-      </div><!--end row-->
-
       <!--responsive card-->
       <div class="row">
         <div class="col-lg-12">
@@ -56,6 +45,12 @@ if (isset($_POST['view'])) {
 
                       echo '<div class="col-lg-12 col-md-8"> ';
                       print "Medicine Name: {$row['medicineName']}";
+                      echo "<br/>";
+                      echo "<br/>";
+                      echo '</div>';
+
+                      echo '<div class="col-lg-12 col-md-8"> ';
+                      print "Apporve By: {$row['phyId']}";
                       echo "<br/>";
                       echo "<br/>";
                       echo '</div>';
@@ -132,8 +127,12 @@ if (isset($_POST['view'])) {
 
 </html>
 <?php
-}
     mysqli_close($conn);
+
+  }else{
+    header("location: updateStockForm.php");
+  } 
+    
 ?>
 
 

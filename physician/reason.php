@@ -7,11 +7,12 @@ include_once "phyBackend/config.php";
 include_once "header.php"; 
 include_once "sidebar.php"; 
 
-  if (isset($_POST['submit'])) {
+  if (isset($_POST['refund'])) {
     $medicineId =  $_POST['medicineId'];
-    $phyId = $_SESSION['phyId'];
+    $transId =  $_POST['transId'];
+    $amountSold =  $_POST['amountSold'];
 
-    $query = "SELECT * FROM medicine WHERE medicineId = '{$medicineId}'"; 
+    $query = "SELECT * FROM medtransaction WHERE transId = '{$transId}'"; 
 
 
 ?>
@@ -25,7 +26,7 @@ include_once "sidebar.php";
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Medicine Detail (Update)</h1>
+      <h1>Delete transaction reason</h1>
       
     </div><!-- End Page Title -->
 
@@ -41,7 +42,7 @@ include_once "sidebar.php";
               
               <div class="tab-content pt-2">
 
-                  <h5 class="card-title">Medicine Details</h5>
+                  <h5 class="card-title">Transaction Details</h5>
 
                   <?php
                   if($r = mysqli_query($conn, $query ) ) {
@@ -49,40 +50,27 @@ include_once "sidebar.php";
                     while ($row=mysqli_fetch_array($r)){
                   
                       echo '<div class="row">';
-                      echo '<div class="col-lg-3 col-md-4 label ">Name</div>';
+                      echo '<div class="col-lg-3 col-md-4 label ">Transaction Id : </div>';
                       echo '<div class="col-lg-8 col-md-12"> ';
-                      print "{$row['medicineName']}";
+                      print "{$row['transId']}";
                       echo '</div>';
                       echo '</div>';
 
                       echo '<div class="row">';
-                      echo '<div class="col-lg-3 col-md-4 label ">Current Amount</div>';
+                      echo '<div class="col-lg-3 col-md-4 label ">Amount : </div>';
                       echo '<div class="col-lg-8 col-md-12"> ';
-                      print "{$row['amount']}";
+                      print "{$row['amountSold']}";
                       echo '</div>';
                       echo '</div>';
 
                       echo '<div class="row">';
-                      echo '<div class="col-lg-3 col-md-4 label ">Category</div>';
+                      echo '<div class="col-lg-3 col-md-4 label ">Date : </div>';
                       echo '<div class="col-lg-8 col-md-12"> ';
-                      print "{$row['category']}";
-                      $category = "{$row['category']}";
+                      print "{$row['date']}";
                       echo '</div>';
                       echo '</div>';
 
-                      echo '<div class="row">';
-                      echo '<div class="col-lg-3 col-md-4 label ">Medicine efficacy</div>';
-                      echo '<div class="col-lg-8 col-md-12"> ';
-                      print "{$row['efficacy']}";
-                      echo '</div>';
-                      echo '</div>';
-
-                      echo '<div class="row">';
-                      echo '<div class="col-lg-3 col-md-4 label ">Important notes</div>';
-                      echo '<div class="col-lg-8 col-md-12"> ';
-                      print "{$row['impNotes']}";
-                      echo '</div>';
-                      echo '</div>';
+                   
 
                       echo '</div>';
                       echo '</div>';
@@ -102,23 +90,25 @@ include_once "sidebar.php";
              
             
 
-            <form action="update.php" method="post" enctype="multipart/form-data">
+            <form action="refund.php" method="post" enctype="multipart/form-data">
             <div class="row mt-5 ">
                   <div class="col-12 col-sm-6 ">
-                  <div class="col-lg-3 col-md-4 label ">amount of Sold</div>
-                    <input type="text" name="sold" class="form-control" placeholder="amount of sold">
+                  <div class="col-lg-3 col-md-4 label ">Reason</div>
+                    <input type="text" name="reason" class="form-control" rows="6" placeholder="Reason of delete transaction" required>
                   </div>
                   
-                  <input type="hidden" name="phyId" value="<?php echo "$phyId";?>">
+
                   <input type="hidden" name="medicineId" value="<?php echo "$medicineId";?>">
-                  <input type="hidden" name="category" value="<?php echo "$category";?>">
-                  <button type='submit' name='confirm' >
+                  <input type="hidden" name="transId" value="<?php echo "$transId";?>">
+                  <input type="hidden" name="amountSold" value="<?php echo "$amountSold";?>">
+                  
+             
+                </div>
+                </div>
+                <button type='submit' name='confirm' >
                         confirm
                         </button>
-              </form>
-                </div>
-                </div>
-
+                </form>
                 <?php
             mysqli_close($conn);
             ?>

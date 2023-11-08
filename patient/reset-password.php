@@ -1,4 +1,5 @@
 <?php
+session_start();
 include_once "backend/config.php";
 
 if (isset($_POST['password_update'])) {
@@ -10,13 +11,18 @@ if (isset($_POST['password_update'])) {
 
     if (!empty($token)) {
 
-        if (!empty($email) && !empty($new_password) && !empty($confirm_password)) {
+        if (!empty($new_password) && !empty($confirm_password)) {
+            
             // Checking Token is valid or not
             $check_token = "SELECT reset_token FROM users WHERE reset_token='$token' LIMIT 1";
             $check_token_run = mysqli_query($conn, $check_token);
 
             if (mysqli_num_rows($check_token_run) > 0) {
                 if ($new_password == $confirm_password) {
+                    if (!preg_match("#.*^(?=.{8,20})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$#", $new_password)) {
+                $_SESSION['status'] = "Password must be at least 8 characters in length and must contain at least one number, one upper case letter, one lower case letter and one special character.";
+                header("Location: reset-password-form.php?token=$token&email=$email");
+            } else {
                     // Hash the new password before storing it
                     $hashed_password = md5($new_password);
 
@@ -36,6 +42,7 @@ if (isset($_POST['password_update'])) {
                         header("Location: reset-password-form.php?token=$token&email=$email");
                         exit(0);
                     }
+                }//close check password
 
                 } else {
                     $_SESSION['status'] = "Password and Confirm Password do not match";
@@ -54,6 +61,7 @@ if (isset($_POST['password_update'])) {
             header("Location: reset-password-form.php?token=$token&email=$email");
             exit(0);
         }
+    
 
     } else {
         $_SESSION['status'] = "No Token Available";

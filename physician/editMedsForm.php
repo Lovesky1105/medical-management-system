@@ -18,17 +18,19 @@ if (isset($_POST['edit'])) {
     </div><!-- End Page Title -->
 
     <section class="section">
-      <div class="row">
-        <div class="col-lg-12">
-
-          <div class="card">
-            <div class="card-body">
-            <h5 class="card-title">Medicine Information</h5>
-                
+    <?php
+        if(isset($_SESSION['status']))
+        {
+            ?>
+            <div class="alert alert-primary">
+                <h5>
+                    <?= $_SESSION['status']; ?>
+                </h5>
             </div>
-          </div>
-        </div>
-      </div><!--end row-->
+            <?php
+            unset($_SESSION['status']);
+        }        
+      ?>
 
       <!--responsive card-->
       <div class="row">
@@ -37,42 +39,36 @@ if (isset($_POST['edit'])) {
           <div class="card">
             <div class="card-body">
             <h5 class="card-title">Result</h5>
-            <?php
-            if(isset($_SESSION['status']))
-                    {
-                        ?>
-                        <div class="alert alert-success">
-                            <h5>
-                                <?= $_SESSION['status']; ?>
-                            </h5>
-                        </div>
-                        <?php
-                        unset($_SESSION['status']);
-                    }  
-            ?>
             <form action="phyBackend/editMeds.php" method="post" enctype="multipart/form-data">
             <div class="row mt-5 ">
                   <div class="col-12 col-sm-12 ">
-                  <div class="col-lg-3 col-md-4 label ">New Medicine Name</div>
+                  <div class="col-lg-3 col-md-4 label ">Medicine Name</div>
                     <input type="text" name="medicineName" class="form-control" placeholder="New Medicine Name">
                     <br/>
                   </div>
                   
-                  <div class="col-12 col-sm-12 ">
-                  <div class="col-lg-3 col-md-4 label ">Medicine Ediicacy</div>
-                    <input type="text" name="efficacy" class="form-control" placeholder="Medicine Ediicacy">
-                    <br/>
-                  </div>
+               <div class="col-12 py-2 wow fadeInUp" data-wow-delay="300ms">
+               <div class="col-lg-3 col-md-4 label ">Medicine efficacy</div>
+                <textarea name="efficacy" id="efficacy" class="form-control" rows="6" placeholder="Medical Efficacy"></textarea>
+                <br/>
+              </div>   
 
-                  <div class="col-12 col-sm-12 ">
-                  <div class="col-lg-3 col-md-4 label ">Important Notes</div>
-                    <input type="text" name="impNotes" class="form-control" placeholder="Important Notes">
-                    <br/>
-                  </div>
-
+              <div class="col-12 py-2 wow fadeInUp" data-wow-delay="300ms">
+              <div class="col-lg-3 col-md-4 label ">Medicine Important Notes</div>
+                <textarea name="impNotes" id="impNotes" class="form-control" rows="6" placeholder="Important notes of medicine"></textarea>
+                <br/>
+              </div>
                   <div class="col-12 col-sm-12 ">
                   <div class="col-lg-3 col-md-4 label ">Medicine Category</div>
-                    <input type="text" name="category" class="form-control" placeholder="Medicine Category">
+                  <div class="col-sm-10" class="col-12 py-2 ">
+                    <select name="category" class="form-select" aria-label="Default select example">
+                      <option selected value="type 1">type 1 </option>
+                      <option value="type 2">type 2 </option>
+                      <option value="type 3">type 3 </option>
+                      <option value="type 4">type 4 </option>
+                      <option value="type 5">type 5 </option>
+                    </select>
+                  </div>
                     <br/>
                   </div>
 

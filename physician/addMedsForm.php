@@ -11,17 +11,23 @@ include_once "sidebar.php";
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Blank Page</h1>
-      <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-          <li class="breadcrumb-item">Pages</li>
-          <li class="breadcrumb-item active">Blank</li>
-        </ol>
-      </nav>
+      <h1>Add New Medicine</h1>
     </div><!-- End Page Title -->
 
     <section class="section">
+    <?php
+        if(isset($_SESSION['status']))
+        {
+            ?>
+            <div class="alert alert-primary">
+                <h5>
+                    <?= $_SESSION['status']; ?>
+                </h5>
+            </div>
+            <?php
+            unset($_SESSION['status']);
+        }        
+      ?>
       <div class="row">
         <div class="col-lg-12">
 
@@ -47,22 +53,17 @@ include_once "sidebar.php";
           <div class="col-12 py-2 wow fadeInUp" data-wow-delay="300ms">
             <textarea name="impNotes" id="impNotes" class="form-control" rows="6" placeholder="Important notes of medicine"></textarea>
           </div>
-
           
-                  
-                  <div class="col-sm-10" class="col-12 py-2 ">
-                    <select name="category" class="form-select" aria-label="Default select example">
-                      <option selected> Open this to select medicine category</option>
-                      <option value="type 1">type 1 </option>
-                      <option value="type 2">type 2 </option>
-                      <option value="type 3">type 3 </option>
-                      <option value="type 4">type 4 </option>
-                      <option value="type 5">type 5 </option>
-                    </select>
-                  </div>
-                
-
-          
+            <div class="col-sm-10" class="col-12 py-2 ">
+              <select name="category" class="form-select" aria-label="Default select example">
+                <option selected> Open this to select medicine category</option>
+                <option value="type 1">type 1 </option>
+                <option value="type 2">type 2 </option>
+                <option value="type 3">type 3 </option>
+                <option value="type 4">type 4 </option>
+                <option value="type 5">type 5 </option>
+              </select>
+            </div>
         </div>
 
         <button type="submit" name="submit" class="btn btn-primary mt-3 wow zoomIn">Submit Request</button>

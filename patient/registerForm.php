@@ -202,7 +202,8 @@ form .signup-link a:hover{
           
 
           <div class="row">
-            <input type="password" name="password" placeholder="Password" required>
+            <input type="password" name="password" placeholder="Password" id="myInput" required>
+            <i class="fas fa-eye" onclick="seePsw()"></i>
           </div>
           
           <div class="row button">
@@ -218,6 +219,16 @@ form .signup-link a:hover{
   <script src="javascript/signup.js"></script>-->
 
   </div>
+  <script>
+    function seePsw() {
+  var x = document.getElementById("myInput");
+  if (x.type === "password") {
+    x.type = "text";
+  } else {
+    x.type = "password";
+  }
+}
+</script>
 </body>
 </html>
 

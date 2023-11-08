@@ -246,24 +246,7 @@ echo '<button type="submit" name="submit" class="btn btn-primary w-100">Generate
                     
                 ?>
        <?php
-        /*$count_query = "SELECT COUNT(medicineId) AS totalRow 
-        FROM medicine ";
-        echo '<form action="phyBackend/reportGenerate.php" method="post">';
-      if($r = mysqli_query($conn, $count_query ) ) {
-                      
-        while ($row=mysqli_fetch_array($r)){
-          
-        echo '<form action="phyBackend/reportGenerate.php" method="post">';
-        echo "<input type='hidden' name='medicineId' value='{$medicineId}'>";
-        echo "<input type='hidden' name='medicineName' value='{$medicineName}'>";
-        echo "<input type='hidden' name='sumAmount' value=' {$sumAmount}'>";
-        echo "<input type='hidden' name='avgAmount' value=' {$avgAmount} '>";
-        echo "<input type='hidden' name='difDate' value='{$difDate}'>";
-        echo "<input type='hidden' name='avgDifDate' value='{$avgDifDate}'>";
-        echo '<button type="submit" name="submit" class="btn btn-primary w-100">Generate Report</button>';
-        echo "</form>";
-        }
-      }*/
+       
 
 
       if(isset($_POST["submit"])){

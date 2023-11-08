@@ -34,16 +34,9 @@
   <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
   <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
 
-  <!-- Template Main CSS File -->
+ 
   <link href="assets/css/style.css" rel="stylesheet">
 
-  <!-- =======================================================
-  * Template Name: NiceAdmin
-  * Updated: Sep 18 2023 with Bootstrap v5.3.2
-  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
 </head>
 
 
@@ -74,6 +67,19 @@
                   </div>
 
                   <form class="row g-3 needs-validation" action="adminBackend/adminLogin.php" method="post" novalidate >
+                  <?php
+                  if(isset($_SESSION['error']))
+                          {
+                              ?>
+                              <div class="alert alert-primary">
+                                  <h5>
+                                      <?= $_SESSION['error']; ?>
+                                  </h5>
+                              </div>
+                              <?php
+                              unset($_SESSION['error']);
+                          }  
+                  ?>
 
                     <div class="col-12">
                       <label for="yourUsername" class="form-label">Email</label>
@@ -85,8 +91,8 @@
 
                     <div class="col-12">
                       <label for="yourPassword" class="form-label">Password</label>
-                      <input type="password" name="password" class="form-control" id="yourPassword" required>
-
+                      <input type="password" name="password" class="form-control" id="yourPassword" required/>
+                      <i class="bi bi-eye" onclick="seePsw()"></i> 
                       <div class="invalid-feedback">Please enter your password!</div>
                     </div>
 
@@ -112,6 +118,17 @@
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
   <!-- Vendor JS Files -->
+  <script>
+    function seePsw() {
+  var x = document.getElementById("yourPassword");
+  if (x.type === "password") {
+    x.type = "text";
+  } else {
+    x.type = "password";
+  }
+}
+</script>
+
   <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="assets/vendor/chart.js/chart.umd.js"></script>

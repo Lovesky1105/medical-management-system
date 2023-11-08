@@ -172,7 +172,7 @@ form .signup-link a:hover{
             <input type="text" name="email" placeholder="Please enter you email" required>
           </div>
           <div class="row button">
-            <input type="submit" name="password_reset" value="password_reset">
+            <input type="submit" name="password_reset" value="reset password">
           </div>
         </form>
       </div>

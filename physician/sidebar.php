@@ -55,6 +55,11 @@
           <i class="bi bi-circle"></i><span> Medicine Order List</span>
         </a>
       </li>
+      <li>
+        <a href="salesList.php">
+          <i class="bi bi-circle"></i><span> Medicine Transaction List</span>
+        </a>
+      </li>
     </ul>
   </li><!-- End Forms Nav -->
 
@@ -73,6 +78,7 @@
       <span>Report</span>
     </a>
   </li><!-- End report Page Nav -->
+
 
 
 </ul>

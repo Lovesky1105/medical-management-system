@@ -1,32 +1,26 @@
 <?php
+session_start();
 include_once "config.php";
-
-
-
     $agreement = "pending";
     $appointmentId = $_POST['appointmentId'];
- //$appointmentId = mysqli_real_escape_string($conn, $_POST['appointmentId']);
-
- 
+    $status = $_POST['agreement'];
 
 $query="SELECT * FROM appointment WHERE appointmentId = '{$appointmentId}' AND status = '{$agreement}'";
 
 if (isset($_POST['submitted'])) {
    
-    
-      // update database
       $query = "UPDATE appointment SET 
-              status = 'approve' 
-              WHERE appointmentId = '$appointmentId' "
-              ;
+              status = '$status' 
+              WHERE appointmentId = '$appointmentId'";
 
       if (mysqli_query($conn, $query)) {
-        print "appointment approve successfully!";
+        $_SESSION['status'] = "appointment {$status} successfully!";
         header("location: ../viewAppointment.php");
 
         
     }else {
-        print "got problem";
+        $_SESSION['status'] = '<p style="color:red;">Could not update the data because :<br/>' .mysqli_error($conn).
+                    '.</p><p>the query being run was : '.$query.'</p>';
 
     }
 }

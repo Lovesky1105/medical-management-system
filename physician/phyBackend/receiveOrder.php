@@ -1,4 +1,5 @@
 <?php
+session_start();
 include_once "config.php";
     $agreement = "pending";
     $orderId = $_POST['orderId'];
@@ -30,17 +31,20 @@ if (isset($_POST['receive'])) {
                 if (mysqli_query($conn, $query2)){
                     $update = "UPDATE medicine SET 
                     amount = '{$newAmount}' 
-                    WHERE medicineId = '$medicineId' "
-                    ;
+                    WHERE medicineId = '$medicineId' ";
                     if (mysqli_query($conn, $update)){
+                    $_SESSION['status'] = "Item Receive successfully!";
                     header("location: ../orderList.php");
                     }else{
-                        print "cannot update new amount in medicine table";
+                        $_SESSION['status'] = '<p style="color:red;">Could not update the data because :<br/>' .mysqli_error($conn).
+                        '.</p><p>the query being run was : '.$update.'</p>';
+                        header("location: ../orderList.php");
                     }
                 }
     }else {
-        print "got problem";
-
+        $_SESSION['status'] = '<p style="color:red;">Could not update the data because :<br/>' .mysqli_error($conn).
+        '.</p><p>the query being run was : '.$update_query.'</p>';
+        header("location: ../orderList.php");
     }
 }
 
@@ -53,9 +57,12 @@ if (isset($_POST['cancel'])) {
             ;
 
     if (mysqli_query($conn, $cancel_query)) {
+        $_SESSION['status'] = "Order cancel successfully!";
       header("location: ../orderList.php");
   }else {
-      print "got problem";
+    $_SESSION['status'] = '<p style="color:red;">Could not update the data because :<br/>' .mysqli_error($conn).
+    '.</p><p>the query being run was : '.$cancel_query.'</p>';
+    header("location: ../orderList.php");
 
   }
 }

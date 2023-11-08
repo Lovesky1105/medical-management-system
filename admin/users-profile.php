@@ -137,6 +137,19 @@ if($r = mysqli_query($conn, $query ) ) {
                 <!-- Profile Edit Form -->
                 <form class="main-form" action="adminBackend/updateAdminInfo.php" method="post" enctype="multipart/form-data">
 
+                <?php
+                  if(isset($_SESSION['status']))
+                          {
+                              ?>
+                              <div class="alert alert-primary">
+                                  <h5>
+                                      <?= $_SESSION['status']; ?>
+                                  </h5>
+                              </div>
+                              <?php
+                              unset($_SESSION['status']);
+                          }  
+                  ?>
                 
                   <div class="row mt-5 ">
                   <div class="col-12 col-sm-6 py-2 wow fadeInLeft">

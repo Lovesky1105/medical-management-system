@@ -14,16 +14,23 @@ include_once "sidebar.php";
 
     <div class="pagetitle">
       <h1>Order List</h1>
-      <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-          <li class="breadcrumb-item">Pages</li>
-          <li class="breadcrumb-item active">Blank</li>
-        </ol>
-      </nav>
     </div><!-- End Page Title -->
 
     <section class="section">
+      
+    <?php
+        if(isset($_SESSION['status']))
+        {
+            ?>
+            <div class="alert alert-primary">
+                <h5>
+                    <?= $_SESSION['status']; ?>
+                </h5>
+            </div>
+            <?php
+            unset($_SESSION['status']);
+        }        
+      ?>
       <div class="row">
         <div class="col-lg-12">
 
@@ -45,6 +52,7 @@ include_once "sidebar.php";
                         echo "<input type='hidden' name='orderAmount' value='{$row['orderAmount']}'>";
                         print "<p>Medicine ID: {$row['medicineId']}</p>";
                         print "<p>Medicine Name: {$row['medicineName']}</p>";
+                        print "<p>Order By: {$row['phyId']}</p>";
                         print "<p>Order Date: {$row['orderDate']}</p>";
                         print "<p>Order Amount: {$row['orderAmount']}</p>";
                         echo '<button class="btn btn-primary w-100" type="submit" name="receive">Receive</button>';

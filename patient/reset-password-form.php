@@ -151,7 +151,11 @@ form .signup-link a:hover{
 </head>
 <body>
 <div class="container">
-<?php
+
+      <div class="wrapper">
+        <div class="title"><span>Grand Clinic Reset Password</span></div>
+        <form action="reset-password.php" method="POST" enctype="multipart/form-data" autocomplete="off">
+        <?php
                     if(isset($_SESSION['status']))
                     {
                         ?>
@@ -164,14 +168,9 @@ form .signup-link a:hover{
                         unset($_SESSION['status']);
                     }        
                 ?>
-      <div class="wrapper">
-        <div class="title"><span>Grand Clinic Reset Password</span></div>
-        <form action="reset-password.php" method="POST" enctype="multipart/form-data" autocomplete="off">
         <input type="hidden" name="password_token" value="<?php if(isset($_GET['token'])){echo $_GET['token'];} ?>">
-        <div class="row">
-            <i class="fas fa-user"></i>
-            <input type="text" name="email" placeholder="Please enter you email" required>
-          </div>
+        <input type="hidden" name="email" value="<?php if(isset($_GET['email'])){echo $_GET['email'];} ?>">
+      
           <div class="row">
             <i class="fas fa-lock"></i>
             <input type="password" name="newPassword" placeholder="New password" required>

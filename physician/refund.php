@@ -13,7 +13,7 @@ if(!isset($_SESSION['phyId'])){
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Medicine Detail</h1>
+      <h1>Delete Transaction</h1>
       
     </div><!-- End Page Title -->
 
@@ -23,17 +23,16 @@ if(!isset($_SESSION['phyId'])){
           <div class="card">
             <div class="card-body pt-3">
               <div class="tab-content pt-2">
-                  <h5 class="card-title">Update Stock</h5>
+                  <h5 class="card-title">Delete Transaction</h5>
                   <?php
                     if (isset($_POST['confirm'])) {
-                      
                         $medicineId =  $_POST['medicineId'];
-                        $phyId = $_POST['phyId'];
-                        $category = $_POST['category'];
+                        $transId =  $_POST['transId'];
+                        $status = "delete";
                         $query="SELECT * FROM medicine WHERE medicineId='{$medicineId}' "; 
-                        $sold = mysqli_real_escape_string($conn, $_POST['sold']);
-                        if(!empty($sold)){
-                        if(is_numeric($sold)){
+                        $reason = mysqli_real_escape_string($conn, $_POST['reason']);
+                        $sold = mysqli_real_escape_string($conn, $_POST['amountSold']);
+                        
                             $result = mysqli_query($conn, $query);
                             if ($result) {
                             // Fetch data from the result
@@ -41,24 +40,31 @@ if(!isset($_SESSION['phyId'])){
                                 if ($row) {
                                     
                                     $quantity = $row['amount'];
-                                    
-                                    $newQuantity = $quantity - $sold;
+
+                                    $newQuantity = $quantity + $sold;
 
                                     $sql="UPDATE medicine SET 
                                     amount = '$newQuantity'
                                     WHERE medicineId = '{$medicineId}'";
 
+                                    $update_status_sql="UPDATE medtransaction SET 
+                                    status = '$status'
+                                    WHERE transId = '{$transId}'";
+
                                     if (mysqli_query($conn, $sql)) {
-                                      echo  "update successfully!";
+                                      if (mysqli_query($conn, $update_status_sql)) {
+
+                                      echo  "delete successfully!";
                                       echo "<br/>";
-                                      echo '<button class="btn btn-outline-success" ><a href="updateStockForm.php">Back</a></button>';
+                                      echo '<button class="btn btn-outline-success" ><a href="salesList.php">Back</a></button>';
                                       $currentDate = date('Y-m-d');
-                                      $status = "sold";
-                                      $insert_query = mysqli_query($conn, "INSERT INTO medtransaction (transId, medicineId, 
-                                      phyId, category, date, amountSold, oriAmount, newAmount, status)
-                                      VALUES (0, '{$medicineId}', '{$phyId}','{$category}', 
-                                      '{$currentDate}', '{$sold}' , '{$quantity}' , '{$newQuantity}', '{$status}')");
-                                      
+                                      $insert_query = mysqli_query($conn, "INSERT INTO removeitem (deleteId, transId, medicineId, date, deleteAmount, newAmount, reason)
+                                      VALUES (0, '{$transId}', '{$medicineId}', '{$currentDate}', '{$sold}', '{$newQuantity}', '{$reason}')");
+                                      }else {
+                                        echo '<p style="color:red;">Could not retrieve the data because :<br/>' .mysqli_error($conn).
+                                                    '.</p><p>the query being run was : '.$update_status_sql.'</p>';
+                                                    
+                                  }
                                     }else {
                                       echo '<p style="color:red;">Could not retrieve the data because :<br/>' .mysqli_error($conn).
                                                   '.</p><p>the query being run was : '.$sql.'</p>';
@@ -68,20 +74,13 @@ if(!isset($_SESSION['phyId'])){
                               echo'<p style="color:red;">Could not retrieve the data because :<br/>' .mysqli_error($conn).
                                 '.</p><p>the query being run was : '.$query.'</p>';
                                 
-                            }
                             }// close if result
-                        }else{
-                          echo "Please fill in number. Only numner are acceptable";
-                        }//close if empty
-                      }else{
-                        echo "Please fill in all field";
-                      
-                      }
-
+                            
+                        
                     }//close if comfirm
 
                     mysqli_close($conn);
-                  
+                  }
                 ?>
                 </div>
                 </div>

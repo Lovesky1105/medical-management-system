@@ -1,7 +1,7 @@
 <?php
 include_once "phyBackend/config.php";
 
-if (isset($_POST['password_update'])) {
+if (isset($_POST['password_reset'])) {
     $email = mysqli_real_escape_string($conn, $_POST['email']);
     $new_password = mysqli_real_escape_string($conn, $_POST['newPassword']);
     $confirm_password = mysqli_real_escape_string($conn, $_POST['confirmPassword']);
@@ -24,8 +24,9 @@ if (isset($_POST['password_update'])) {
 
                     if ($update_password_run) {
                         // Update the token before redirecting
+                        $status = "pending";
                         $new_token = md5(rand()) . "token change"; // Generate a new token here
-                        $update_to_new_token = "UPDATE physician SET reset_token='$new_token' WHERE reset_token='$token' LIMIT 1";
+                        $update_to_new_token = "UPDATE physician SET reset_token='$new_token', agreement = '$status' WHERE reset_token='$token' LIMIT 1";
                         $update_to_new_token_run = mysqli_query($conn, $update_to_new_token);
                         header("Location: phyLoginForm.php");
                         exit(0);
@@ -55,7 +56,7 @@ if (isset($_POST['password_update'])) {
 
     } else {
         $_SESSION['status'] = "No Token Available";
-        header("Location: getEmail.php");
+        header("Location: forgot-password.php");
         exit(0);
     }
 }

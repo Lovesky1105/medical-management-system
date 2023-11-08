@@ -7,26 +7,30 @@ include_once "phyBackend/config.php";
 include_once "header.php"; 
 include_once "sidebar.php"; 
 $agreement = "approve";
+$status = "sold";
 
-    
+    $currentDate = date("Y/m/d");
     $cleanSearch = $_POST['search'];
-    $query = "SELECT * FROM medicine WHERE agreement= '{$agreement}'";
+    $query = "SELECT mt.transId, mt.medicineId, mt.date, mt.amountSold, mt.oriAmount, mt.newAmount, m.medicineName 
+    FROM medtransaction as mt 
+    LEFT JOIN medicine AS m ON mt.medicineId = m.medicineId
+    WHERE date = '{$currentDate}' AND status = '{$status}'";
 
     if($cleanSearch != "") {
-      $query = $query." AND ((medicineName LIKE '%$cleanSearch%') OR (category LIKE '%$cleanSearch%')) ";
+      $query = $query." AND ((m.medicineName LIKE '%$cleanSearch%') OR (mt.transId LIKE '%$cleanSearch%')) ";
     }
 
     $search_query = mysqli_query($conn, $query);  
 
     if(!$search_query) {
-        die("No Result found");
+        die("Database query failed");
     }else{
 
 ?>
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Search Meds</h1>
+      <h1> Meds transaction record</h1>
     </div><!-- End Page Title -->
 
     <section class="section">
@@ -48,7 +52,7 @@ $agreement = "approve";
 
           <div class="card">
             <div class="card-body">
-            <h5 class="card-title">Update Medicine Stock Form</h5>
+            <h5 class="card-title">Search medicine sales record</h5>
                 <div class="search-bar">
                     <form class="search-form d-flex align-items-center" method="POST" action="#">
                         <input type="text" name="search" placeholder="Search" title="Enter search keyword" value="<?=$cleanSearch?>">
@@ -69,35 +73,40 @@ $agreement = "approve";
             <h5 class="card-title">Result</h5>
                 <?php
                     while($row = mysqli_fetch_assoc($search_query)) {
+                      echo '<form action="reason.php" method="post">';
                       echo '<div class="row">'; 
-                      echo '<div class="col-lg-3 col-md-8"> ';
-                      print "{$row['medicineName']}";
+                      echo '<div class="col-lg-2 col-md-8"> ';
+                      print "Transaction ID : {$row['transId']}";
+                      echo "<input type='hidden' name='transId' value='{$row['transId']}'>";
                       echo '</div>';
 
                       echo '<div class="col-lg-2 col-md-8"> ';
-                      print "{$row['amount']}";
+                      print "Medicine Name : {$row['medicineName']}";
                       echo '</div>';
 
                       echo '<div class="col-lg-2 col-md-8"> ';
-                      echo '<form action="viewMeds.php" method="post">';
+                      print "Transaction Date : {$row['date']}";
+                      echo '</div>';
+
+                      echo '<div class="col-lg-2 col-md-8"> ';
+                      print "Amount Sold : {$row['amountSold']}";
+                      echo "<input type='hidden' name='amountSold' value='{$row['amountSold']}'>";
+                      echo '</div>';
+
+                      echo '<div class="col-lg-2 col-md-8"> ';
+                      print "Original Amount : {$row['oriAmount']}";
+                      echo '</div>';
+
+                      echo '<div class="col-lg-2 col-md-8"> ';
+                      print "New Amount : {$row['newAmount']}";
+                      echo '</div>';
+
+                      echo '<div class="col-lg-2 col-md-8"> ';
                       echo "<input type='hidden' name='medicineId' value='{$row['medicineId']}'>";
-                      echo '<button class="btn btn-primary w-100" type="submit" name="view">View</button>';
+                      echo '<button class="btn btn-outline-danger w-100" type="submit" name="refund">Delete</button>';
                       echo '</form>';
                       echo '</div>';
 
-                      echo '<div class="col-lg-2 col-md-8"> ';
-                      echo '<form action="updateStock.php" method="post">';
-                      echo "<input type='hidden' name='medicineId' value='{$row['medicineId']}'>";
-                      echo '<button class="btn btn-primary w-100" type="submit" name="submit">Update</button>';
-                      echo '</form>';
-                      echo '</div>';
-
-                      echo '<div class="col-lg-2 col-md-8"> ';
-                      echo '<form action="orderStock.php" method="post">';
-                      echo "<input type='hidden' name='medicineId' value='{$row['medicineId']}'>";
-                      echo '<button class="btn btn-primary w-100" type="submit" name="submit">Order</button>';
-                      echo '</form>';
-                      echo '</div>';
 
                       echo '</div>';
                       }

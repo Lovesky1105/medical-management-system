@@ -27,33 +27,40 @@
 
   <?php
                 $query="SELECT * FROM users WHERE id='".$_SESSION['id']."' ";
-                //$query2="SELECT phone FROM users WHERE id='".$_SESSION['id']."' ";
-                //$query3="SELECT RIGHT(phone, 4) FROM users WHERE id='".$_SESSION['id']."' ";
-                
-                
                 if($r = mysqli_query($conn, $query ) ) {
-                
                     while ($row=mysqli_fetch_array($r)){
                     
                       ?>
 
   <div class="page-section">
+  <?php
+                  if(isset($_SESSION['status']))
+                          {
+                              ?>
+                              <div class="alert alert-primary">
+                                  <h5>
+                                      <?= $_SESSION['status']; ?>
+                                  </h5>
+                              </div>
+                              <?php
+                              unset($_SESSION['status']);
+                          }  
+                  ?>
     <div class="container">
         
       <h1 class="text-center wow fadeInUp">Account Detail</h1>
         <div class="row mb-3">
 
         <form action="editProfileForm.php" mathod="post">
-          <div class="col-sm-6 py-2 wow fadeInLeft">
+          <div class="col-sm-12 py-2 wow fadeInLeft">
             
             <p>Name: <?php echo "{$row['name']}"; ?></p>
           </div>
 
-          <div class="col-sm-6 py-2 wow fadeInRight">
+          <div class="col-sm-12 py-2 wow fadeInRight">
           <?php 
           $method = "AES-256-CBC";
           $key = "secret";
-          
           if (isset($row['nric'])) {
               $encryption = $row['nric'];
 
@@ -88,11 +95,11 @@
           
           </div>
 
-          <div class="col-sm-6 py-2 wow fadeInLeft">
+          <div class="col-sm-12 py-2 wow fadeInLeft">
             <p>email: <?php echo "{$row['email']}"; ?></p>
           </div>
           
-          <div class="col-sm-6 py-2 wow fadeInRight">
+          <div class="col-sm-12 py-2 wow fadeInRight">
             <?php $phNo = substr($row['phone'], 5); ?>
             <p>Contact Number: ***-***<?php echo "{$phNo}"; ?></p>
         </div>
@@ -141,8 +148,6 @@
         } else {
             echo "Error in query3: " . mysqli_error($conn);
         }
-        
-                    
           echo '<div class="row mb-3">';
           echo '<div class="col-sm-6 py-2 wow fadeInLeft">';
           echo "Appointment ID:  {$row["appointmentId"]} </p>";

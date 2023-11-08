@@ -13,8 +13,6 @@ $sql = "SELECT phyId, accessLvl FROM physician WHERE phyId = $phyId AND accessLv
 $r = mysqli_query($conn, $sql );
 
 if($r && mysqli_num_rows($r) > 0){
-
-    
     $cleanSearch = $_POST['search'];
     $query = mysqli_query($conn, "SELECT * FROM medicine WHERE agreement= '{$agreement}'");  
     
@@ -30,7 +28,19 @@ if($r && mysqli_num_rows($r) > 0){
     </div><!-- End Page Title -->
 
     <section class="section">
-      
+    <?php
+        if(isset($_SESSION['status']))
+        {
+            ?>
+            <div class="alert alert-primary">
+                <h5>
+                    <?= $_SESSION['status']; ?>
+                </h5>
+            </div>
+            <?php
+            unset($_SESSION['status']);
+        }        
+      ?>
 
       <!--responsive card-->
       <?php
@@ -44,23 +54,24 @@ if($r && mysqli_num_rows($r) > 0){
                             
                         echo '<div class="row">'; 
                             echo '<div class="col-lg-3 col-md-8"> ';
-                            print "{$row['medicineName']}";
+
+                            print " Medicine Name : {$row['medicineName']}";
                             echo '</div>';
 
                             echo '<div class="col-lg-2 col-md-8"> ';
-                            print "{$row['amount']}";
+                            print "Amount : {$row['amount']}";
                             echo '</div>';
 
                             echo '<div class="col-lg-2 col-md-8"> ';
-                            print "{$row['efficacy']}";
+                            print "Efficacy : {$row['efficacy']}";
                             echo '</div>';
 
                             echo '<div class="col-lg-2 col-md-8"> ';
-                            print "{$row['impNotes']}";
+                            print "Important Notes : {$row['impNotes']}";
                             echo '</div>';
 
                             echo '<div class="col-lg-2 col-md-8"> ';
-                            print "{$row['category']}";
+                            print " Category : {$row['category']}";
                             echo '</div>';
 
 

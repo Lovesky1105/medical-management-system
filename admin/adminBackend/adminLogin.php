@@ -22,15 +22,19 @@
                     //echo "success";
                      
                 }else{
-                    echo "Something went wrong. Please try again!";
+                    $_SESSION['error'] = "Something went wrong. Please try again!";
+                    header("location: ../adminLoginForm.php");
                 }
             }else{
-                echo "Email or Password is Incorrect!";
+                $_SESSION['error'] = "Email or Password is Incorrect!";
+                header("location: ../adminLoginForm.php");
             }
         }else{
-            echo "$email - This email not Exist!";
+            $_SESSION['error'] = "$email - This email not Exist!";
+            header("location: ../adminLoginForm.php");
         }
     }else{
-        echo "All input fields are required!";
+        $_SESSION['error'] = "All input fields are required!";
+        header("location: ../adminLoginForm.php");
     }
 ?>

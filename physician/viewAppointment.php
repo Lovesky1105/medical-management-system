@@ -25,27 +25,35 @@ include_once "sidebar.php";
     </div><!-- End Page Title -->
 
     <section class="section">
+      <?php
+        if(isset($_SESSION['status']))
+        {
+            ?>
+            <div class="alert alert-primary">
+                <h5>
+                    <?= $_SESSION['status']; ?>
+                </h5>
+            </div>
+            <?php
+            unset($_SESSION['status']);
+        }        
+      ?>
       <div class="row">
         <div class="col-lg-12">
 
           
             <?php
                 $query="SELECT * FROM appointment WHERE phyId='".$_SESSION['phyId']."' AND status ='pending' ";
-                
-                
                 if($r = mysqli_query($conn, $query ) ) {
-                
                     while ($row=mysqli_fetch_array($r)){
                     
                         echo '<div class="card">';
                         echo '<div class="card-body">';
-
                         echo '<form action="phyBackend/approveAppointment.php" method="POST">';
                         $appointmentId = $row['appointmentId'];
                         echo "<input type='hidden' name='appointmentId' value='{$appointmentId}'>";
                         print "<p>Patient ID: {$row['id']}</p>";
                         print "<p>Patient Name: {$row['patientName']}</p>";
-
                          
                         $method = "AES-256-CBC";
                         $key = "secret";

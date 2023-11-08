@@ -22,7 +22,7 @@ function send_password_reset( $get_email, $token){
 	$mail->Subject = 'Reset Password';
 	
     $email_template = "<p>Click the following link to reset your password: </p>
-                        <a href='http://localhost/fyp/combine/patient/reset-password-form.php?token=$token&email=$get_email'>Click Me</a>";
+        <a href='http://localhost/fyp/combine/patient/reset-password-form.php?token=$token&email=$get_email'>Click Me</a>";
 
     $mail->Body = $email_template;
     $mail->send();
